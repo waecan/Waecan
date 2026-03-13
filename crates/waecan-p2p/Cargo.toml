@@ -1,0 +1,4 @@
+[package]
+name = "waecan-p2p"
+version.workspace = true
+edition.workspace = true

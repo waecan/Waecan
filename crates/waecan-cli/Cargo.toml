@@ -1,0 +1,4 @@
+[package]
+name = "waecan-cli"
+version.workspace = true
+edition.workspace = true

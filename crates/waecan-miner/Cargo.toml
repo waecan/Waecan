@@ -1,0 +1,4 @@
+[package]
+name = "waecan-miner"
+version.workspace = true
+edition.workspace = true

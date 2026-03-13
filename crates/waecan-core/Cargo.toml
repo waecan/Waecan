@@ -1,0 +1,4 @@
+[package]
+name = "waecan-core"
+version.workspace = true
+edition.workspace = true

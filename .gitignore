@@ -1,0 +1,6 @@
+/target
+Cargo.lock
+*.waec_wallet
+.env
+testnet_data/
+mainnet_data/

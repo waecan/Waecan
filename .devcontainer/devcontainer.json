@@ -1,0 +1,27 @@
+{
+  "name": "Waecan Protocol Dev",
+  "image": "mcr.microsoft.com/devcontainers/rust:1-bullseye",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "rust-analyzer.checkOnSave.command": "clippy"
+      }
+    }
+  },
+  "postCreateCommand": "rustup component add clippy rustfmt && rustup update stable",
+  "remoteEnv": {
+    "RUST_BACKTRACE": "1",
+    "RUST_LOG": "debug"
+  },
+  "forwardPorts": [19334, 19335],
+  "portsAttributes": {
+    "19334": { "label": "Waecan P2P", "onAutoForward": "silent" },
+    "19335": { "label": "Waecan RPC", "onAutoForward": "notify" }
+  }
+}

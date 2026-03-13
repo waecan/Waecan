@@ -1,0 +1,4 @@
+[package]
+name = "waecan-wallet"
+version.workspace = true
+edition.workspace = true
