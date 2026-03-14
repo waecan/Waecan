@@ -6,49 +6,77 @@
 [1m[92m      Adding[0m thiserror v1.0.69 [1m[33m(available: v2.0.18)[0m
 [1m[92m   Compiling[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
 [1m[92m   Compiling[0m waecan-crypto v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-crypto)
-[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
-[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
-[1m[92m   Compiling[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
-[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
-[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
 [1m[92m   Compiling[0m waecan-wallet v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-wallet)
+[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
+[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
+[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
+[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
 [1m[92m   Compiling[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
+[1m[92m   Compiling[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
 [1m[92m   Compiling[0m waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)
-[1m[91merror[E0432][0m[1m: unresolved import `ed25519_dalek::PublicKey`[0m
- [1m[94m--> [0mcrates/waecan-core/src/block.rs:2:5
-  [1m[94m|[0m
-[1m[94m2[0m [1m[94m|[0m use ed25519_dalek::PublicKey;
-  [1m[94m|[0m     [1m[91m^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[91mno `PublicKey` in the root[0m
+[1m[91merror[E0432][0m[1m: unresolved import `rand`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:107:9
+    [1m[94m|[0m
+[1m[94m107[0m [1m[94m|[0m     use rand::SeedableRng;
+    [1m[94m|[0m         [1m[91m^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand`, use `cargo add rand` to add it to your `Cargo.toml`
 
-[1m[91merror[E0432][0m[1m: unresolved import `ed25519_dalek::PublicKey`[0m
- [1m[94m--> [0mcrates/waecan-core/src/transaction.rs:2:5
-  [1m[94m|[0m
-[1m[94m2[0m [1m[94m|[0m use ed25519_dalek::PublicKey;
-  [1m[94m|[0m     [1m[91m^^^^^^^^^^^^^^^^^^^^^^^^[0m [1m[91mno `PublicKey` in the root[0m
+[1m[91merror[E0432][0m[1m: unresolved import `rand_chacha`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:108:9
+    [1m[94m|[0m
+[1m[94m108[0m [1m[94m|[0m     use rand_chacha::ChaCha20Rng;
+    [1m[94m|[0m         [1m[91m^^^^^^^^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand_chacha`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand_chacha`, use `cargo add rand_chacha` to add it to your `Cargo.toml`
+
+[1m[91merror[E0433][0m[1m: failed to resolve: use of unresolved module or unlinked crate `rand`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:115:9
+    [1m[94m|[0m
+[1m[94m115[0m [1m[94m|[0m         rand::RngCore::fill_bytes(&mut rng, &mut spend_bytes);
+    [1m[94m|[0m         [1m[91m^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand`, use `cargo add rand` to add it to your `Cargo.toml`
+
+[1m[33mwarning[0m[1m: unused import: `curve25519_dalek::scalar::Scalar`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:106:9
+    [1m[94m|[0m
+[1m[94m106[0m [1m[94m|[0m     use curve25519_dalek::scalar::Scalar;
+    [1m[94m|[0m         [1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+[1m[91merror[E0560][0m[1m: struct `RingMember` has no field named `key_image`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:132:17
+    [1m[94m|[0m
+[1m[94m132[0m [1m[94m|[0m                 key_image: None,
+    [1m[94m|[0m                 [1m[91m^^^^^^^^^[0m [1m[91m`RingMember` does not have this field[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: all struct fields are already assigned
+
+[1m[91merror[E0560][0m[1m: struct `RingMember` has no field named `key_image`[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:139:17
+    [1m[94m|[0m
+[1m[94m139[0m [1m[94m|[0m                 key_image: Some(
+    [1m[94m|[0m                 [1m[91m^^^^^^^^^[0m [1m[91m`RingMember` does not have this field[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: all struct fields are already assigned
 
 [1m[91merror[E0308][0m[1m: mismatched types[0m
-  [1m[94m--> [0mcrates/waecan-core/src/block.rs:58:37
-   [1m[94m|[0m
-[1m[94m58[0m [1m[94m|[0m pub fn block_reward(height: u64) -> u64 {
-   [1m[94m|[0m        [1m[94m------------[0m                 [1m[91m^^^[0m [1m[91mexpected `u64`, found `()`[0m
-   [1m[94m|[0m        [1m[94m|[0m
-   [1m[94m|[0m        [1m[94mimplicitly returns `()` as its body has no tail or `return` expression[0m
+   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:153:13
+    [1m[94m|[0m
+[1m[94m153[0m [1m[94m|[0m             ring_sig,
+    [1m[94m|[0m             [1m[91m^^^^^^^^[0m [1m[91mexpected `RingSignature`, found `Result<RingSignature, CryptoError>`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: expected struct `RingSignature`
+                 found enum `[1m[35mResult[0m[1m[35m<[0mRingSignature, [1m[35mCryptoError[0m[1m[35m>[0m`
+[1m[96mhelp[0m: consider using `Result::expect` to unwrap the `Result<RingSignature, CryptoError>` value, panicking if the value is a `Result::Err`
+    [1m[94m|[0m
+[1m[94m153[0m [1m[94m| [0m            ring_sig[92m: ring_sig.expect("REASON")[0m,
+    [1m[94m|[0m                     [92m+++++++++++++++++++++++++++[0m
 
-[1m[91merror[E0282][0m[1m: type annotations needed[0m
-  [1m[94m--> [0mcrates/waecan-core/src/validation.rs:84:12
-   [1m[94m|[0m
-[1m[94m84[0m [1m[94m|[0m         if point.mul_by_cofactor() == EdwardsPoint::default() {
-   [1m[94m|[0m            [1m[91m^^^^^[0m [1m[91mcannot infer type[0m
-
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-  [1m[94m--> [0mcrates/waecan-core/src/validation.rs:95:45
-   [1m[94m|[0m
-[1m[94m95[0m [1m[94m|[0m fn verify_range_proof_stub(proof: &[u8]) -> bool {
-   [1m[94m|[0m    [1m[94m-----------------------[0m                  [1m[91m^^^^[0m [1m[91mexpected `bool`, found `()`[0m
-   [1m[94m|[0m    [1m[94m|[0m
-   [1m[94m|[0m    [1m[94mimplicitly returns `()` as its body has no tail or `return` expression[0m
-
-[1mSome errors have detailed explanations: E0282, E0308, E0432.[0m
-[1mFor more information about an error, try `rustc --explain E0282`.[0m
-[1m[91merror[0m: could not compile `waecan-core` (lib) due to 5 previous errors
+[1mSome errors have detailed explanations: E0308, E0432, E0433, E0560.[0m
+[1mFor more information about an error, try `rustc --explain E0308`.[0m
+[1m[33mwarning[0m: `waecan-core` (lib test) generated 1 warning
+[1m[91merror[0m: could not compile `waecan-core` (lib test) due to 6 previous errors; 1 warning emitted
 [1m[33mwarning[0m: build failed, waiting for other jobs to finish...
