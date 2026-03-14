@@ -7,7 +7,7 @@ use curve25519_dalek::scalar::Scalar;
 use waecan_core::block::{Block, BlockHeader, CoinbaseTx};
 use waecan_crypto::pedersen::PedersenCommitment;
 
-use crate::db::{WaecanDB, CF_UTXO, CF_KEY_IMAGES, CF_CHAIN_META};
+use crate::db::{WaecanDB, CF_CHAIN_META, CF_KEY_IMAGES, CF_UTXO};
 use crate::record::OutputRecord;
 
 fn temp_db_path(name: &str) -> PathBuf {
@@ -162,10 +162,8 @@ fn test_5_fee_burn_invariant() {
         let mut key_bytes = [0u8; 32];
         key_bytes[0] = (h_loop & 0xFF) as u8;
         key_bytes[1] = ((h_loop >> 8) & 0xFF) as u8;
-        let out_key =
-            CompressedEdwardsY::from_slice(&key_bytes).unwrap_or_else(|_| {
-                CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap()
-            });
+        let out_key = CompressedEdwardsY::from_slice(&key_bytes)
+            .unwrap_or_else(|_| CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap());
 
         let out = OutputRecord {
             output_key: out_key,
@@ -232,8 +230,15 @@ fn test_6_block_disconnect_reorg() {
 
     // Now disconnect block 3
     let b2_hash = waecan_crypto::hash::keccak256(&block2.header.serialize());
-    db.block_disconnect(&block3, &[out3.output_key], &[out2.clone()], &[], &b2_hash, 2)
-        .unwrap();
+    db.block_disconnect(
+        &block3,
+        &[out3.output_key],
+        &[out2.clone()],
+        &[],
+        &b2_hash,
+        2,
+    )
+    .unwrap();
 
     // Now disconnect block 2
     let b1_hash = waecan_crypto::hash::keccak256(&block1.header.serialize());
@@ -243,15 +248,24 @@ fn test_6_block_disconnect_reorg() {
     // Verify UTXO matches state after block 1 only
     let cf = db.cf(CF_UTXO).unwrap();
     assert!(
-        db.db.get_cf(cf, out1.output_key.as_bytes()).unwrap().is_some(),
+        db.db
+            .get_cf(cf, out1.output_key.as_bytes())
+            .unwrap()
+            .is_some(),
         "out1 should still exist after reorg to block 1"
     );
     assert!(
-        db.db.get_cf(cf, out2.output_key.as_bytes()).unwrap().is_none(),
+        db.db
+            .get_cf(cf, out2.output_key.as_bytes())
+            .unwrap()
+            .is_none(),
         "out2 should be gone after reorg to block 1"
     );
     assert!(
-        db.db.get_cf(cf, out3.output_key.as_bytes()).unwrap().is_none(),
+        db.db
+            .get_cf(cf, out3.output_key.as_bytes())
+            .unwrap()
+            .is_none(),
         "out3 should be gone after reorg to block 1"
     );
 
