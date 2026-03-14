@@ -23,7 +23,7 @@ pub fn compact_to_target(difficulty: u64) -> [u8; 32] {
 pub fn compute_pow(header: &BlockHeader, seed_hash: &[u8; 32]) -> [u8; 32] {
     let flags = RandomXFlag::get_recommended_flags();
     let cache = RandomXCache::new(flags, seed_hash).expect("RandomX cache init failed");
-    let vm = RandomXVM::new(flags, Some(&cache), None).expect("RandomX VM init failed");
+    let vm = RandomXVM::new(flags, Some(cache), None).expect("RandomX VM init failed");
     let input = header.serialize();
     let hash = vm.calculate_hash(&input).expect("RandomX hash failed");
     hash.try_into().unwrap()
