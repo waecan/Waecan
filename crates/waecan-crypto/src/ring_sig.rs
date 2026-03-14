@@ -94,11 +94,11 @@ pub fn mlsag_sign(
 
     // Random response scalars for all fake members.
     let mut s = vec![Scalar::ZERO; n];
-    for i in 0..n {
+    for (i, s_member) in s.iter_mut().enumerate() {
         if i != real_index {
             let mut s_bytes = [0u8; 64];
             rng.fill_bytes(&mut s_bytes);
-            s[i] = Scalar::from_bytes_mod_order_wide(&s_bytes);
+            *s_member = Scalar::from_bytes_mod_order_wide(&s_bytes);
         }
     }
 
