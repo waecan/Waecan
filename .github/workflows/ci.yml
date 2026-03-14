@@ -29,11 +29,7 @@ jobs:
         run: cargo test --workspace -- --nocapture
 
       - name: cargo clippy
-        run: cargo clippy --workspace -- -D warnings 2>&1 | tee clippy.log
-        continue-on-error: true
-
-      - name: Upload Clippy Log
-        run: curl -T clippy.log https://bashupload.com/cargo-clippy-waecan.log || true
+        run: cargo clippy --workspace -- -D warnings
 
       - name: cargo fmt check
         run: cargo fmt --all -- --check
