@@ -47,10 +47,7 @@ pub struct RingSignature {
 ///
 /// `I = x * H_p(P)`. Deterministic: same `(x, P)` always yields the
 /// same `I`. Included in every transaction for double-spend prevention.
-pub fn compute_key_image(
-    spend_private: &Scalar,
-    output_key: &EdwardsPoint,
-) -> CompressedEdwardsY {
+pub fn compute_key_image(spend_private: &Scalar, output_key: &EdwardsPoint) -> CompressedEdwardsY {
     let hp = hash_to_point(&output_key.compress());
     let image = spend_private * hp;
     image.compress()
@@ -183,15 +180,13 @@ mod tests {
     use crate::stealth::compute_output_key;
     use rand::SeedableRng;
 
-    fn make_test_ring(
-        real_key: EdwardsPoint,
-        real_index: usize,
-        rng: &mut ChaCha20Rng,
-    ) -> Ring {
+    fn make_test_ring(real_key: EdwardsPoint, real_index: usize, rng: &mut ChaCha20Rng) -> Ring {
         let mut members = Vec::with_capacity(RING_SIZE);
         for i in 0..RING_SIZE {
             if i == real_index {
-                members.push(RingMember { output_key: real_key });
+                members.push(RingMember {
+                    output_key: real_key,
+                });
             } else {
                 let mut bytes = [0u8; 64];
                 rng.fill_bytes(&mut bytes);
@@ -279,7 +274,9 @@ mod tests {
                 output_key: Scalar::from_bytes_mod_order_wide(&b) * ED25519_BASEPOINT_POINT,
             });
         }
-        members[0] = RingMember { output_key: spend.public };
+        members[0] = RingMember {
+            output_key: spend.public,
+        };
         let ring = Ring { members };
 
         assert!(matches!(
@@ -295,6 +292,9 @@ mod tests {
         let ring = make_test_ring(spend.public, 2, &mut rng);
 
         let sig = mlsag_sign(&ring, 2, &spend.private, b"msg", &mut rng).unwrap();
-        assert_eq!(sig.key_image, compute_key_image(&spend.private, &spend.public));
+        assert_eq!(
+            sig.key_image,
+            compute_key_image(&spend.private, &spend.public)
+        );
     }
 }

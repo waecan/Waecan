@@ -65,10 +65,9 @@ mod tests {
     fn test_keccak256_known_vector() {
         // Empty input produces the standard Keccak-256 empty hash.
         let hash = keccak256(b"");
-        let expected = hex::decode(
-            "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
-        )
-        .unwrap();
+        let expected =
+            hex::decode("c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470")
+                .unwrap();
         assert_eq!(&hash[..], &expected[..]);
     }
 

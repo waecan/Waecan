@@ -52,13 +52,15 @@ impl WaecanAddress {
         let prefix = hrp.to_string();
         if prefix != MAINNET_PREFIX && prefix != TESTNET_PREFIX {
             return Err(CryptoError::AddressError(format!(
-                "unknown prefix: {}", prefix
+                "unknown prefix: {}",
+                prefix
             )));
         }
 
         if data.len() != 64 {
             return Err(CryptoError::AddressError(format!(
-                "invalid payload length: expected 64, got {}", data.len()
+                "invalid payload length: expected 64, got {}",
+                data.len()
             )));
         }
 
@@ -74,14 +76,17 @@ impl WaecanAddress {
             curve25519_dalek::edwards::CompressedEdwardsY::from_slice(&view_bytes)
                 .map_err(|e| CryptoError::AddressError(format!("invalid view key: {}", e)))?;
 
-        let spend_public = spend_compressed
-            .decompress()
-            .ok_or_else(|| CryptoError::InvalidPublicKey("spend key decompression failed".into()))?;
+        let spend_public = spend_compressed.decompress().ok_or_else(|| {
+            CryptoError::InvalidPublicKey("spend key decompression failed".into())
+        })?;
         let view_public = view_compressed
             .decompress()
             .ok_or_else(|| CryptoError::InvalidPublicKey("view key decompression failed".into()))?;
 
-        Ok(WaecanAddress { spend_public, view_public })
+        Ok(WaecanAddress {
+            spend_public,
+            view_public,
+        })
     }
 
     /// Check if an address string is a testnet address.
@@ -106,7 +111,10 @@ mod tests {
 
     fn test_addr() -> WaecanAddress {
         let (s, v) = derive_keypairs(&MasterSeed::from_bytes([42u8; 32])).unwrap();
-        WaecanAddress { spend_public: s.public, view_public: v.public }
+        WaecanAddress {
+            spend_public: s.public,
+            view_public: v.public,
+        }
     }
 
     #[test]
@@ -149,8 +157,14 @@ mod tests {
     fn test_different_keys_different_addresses() {
         let (s_a, v_a) = derive_keypairs(&MasterSeed::from_bytes([1u8; 32])).unwrap();
         let (s_b, v_b) = derive_keypairs(&MasterSeed::from_bytes([2u8; 32])).unwrap();
-        let a = WaecanAddress { spend_public: s_a.public, view_public: v_a.public };
-        let b = WaecanAddress { spend_public: s_b.public, view_public: v_b.public };
+        let a = WaecanAddress {
+            spend_public: s_a.public,
+            view_public: v_a.public,
+        };
+        let b = WaecanAddress {
+            spend_public: s_b.public,
+            view_public: v_b.public,
+        };
         assert_ne!(a.to_bech32m().unwrap(), b.to_bech32m().unwrap());
     }
 

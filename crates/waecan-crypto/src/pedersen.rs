@@ -112,13 +112,19 @@ mod tests {
     #[test]
     fn test_commitment_deterministic() {
         let b = Scalar::from(12345u64);
-        assert_eq!(PedersenCommitment::commit(100, &b), PedersenCommitment::commit(100, &b));
+        assert_eq!(
+            PedersenCommitment::commit(100, &b),
+            PedersenCommitment::commit(100, &b)
+        );
     }
 
     #[test]
     fn test_different_amounts() {
         let b = Scalar::from(12345u64);
-        assert_ne!(PedersenCommitment::commit(100, &b), PedersenCommitment::commit(200, &b));
+        assert_ne!(
+            PedersenCommitment::commit(100, &b),
+            PedersenCommitment::commit(200, &b)
+        );
     }
 
     #[test]

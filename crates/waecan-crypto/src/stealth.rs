@@ -82,10 +82,14 @@ mod tests {
         let mut rng = ChaCha20Rng::from_seed([99u8; 32]);
         let tx_secret = random_scalar(&mut rng);
 
-        let (output_key, tx_pub) =
-            compute_output_key(&tx_secret, &view.public, &spend.public);
+        let (output_key, tx_pub) = compute_output_key(&tx_secret, &view.public, &spend.public);
 
-        assert!(scan_output(&tx_pub, &view.private, &spend.public, &output_key));
+        assert!(scan_output(
+            &tx_pub,
+            &view.private,
+            &spend.public,
+            &output_key
+        ));
     }
 
     #[test]
@@ -96,10 +100,14 @@ mod tests {
 
         let mut rng = ChaCha20Rng::from_seed([10u8; 32]);
         let tx_secret = random_scalar(&mut rng);
-        let (output_key, tx_pub) =
-            compute_output_key(&tx_secret, &view.public, &spend.public);
+        let (output_key, tx_pub) = compute_output_key(&tx_secret, &view.public, &spend.public);
 
-        assert!(!scan_output(&tx_pub, &wrong_view.private, &spend.public, &output_key));
+        assert!(!scan_output(
+            &tx_pub,
+            &wrong_view.private,
+            &spend.public,
+            &output_key
+        ));
     }
 
     #[test]
@@ -120,11 +128,9 @@ mod tests {
         let mut rng = ChaCha20Rng::from_seed([10u8; 32]);
         let tx_secret = random_scalar(&mut rng);
 
-        let (output_key, tx_pub) =
-            compute_output_key(&tx_secret, &view.public, &spend.public);
+        let (output_key, tx_pub) = compute_output_key(&tx_secret, &view.public, &spend.public);
 
-        let output_private =
-            derive_output_private_key(&tx_pub, &view.private, &spend.private);
+        let output_private = derive_output_private_key(&tx_pub, &view.private, &spend.private);
         assert_eq!(output_private * ED25519_BASEPOINT_POINT, output_key);
     }
 
