@@ -1,4 +1,14 @@
 [package]
 name = "waecan-storage"
-version.workspace = true
-edition.workspace = true
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+waecan-core = { path = "../waecan-core" }
+waecan-crypto = { path = "../waecan-crypto" }
+rocksdb = "0.21"
+thiserror = "1.0"
+
+[dev-dependencies]
+rand = "0.8"
+rand_chacha = "0.3"
