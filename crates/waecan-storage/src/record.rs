@@ -1,15 +1,15 @@
+use crate::error::StorageError;
 use curve25519_dalek::edwards::CompressedEdwardsY;
 use waecan_crypto::pedersen::PedersenCommitment;
-use crate::error::StorageError;
 
 /// UTXO record stored in CF_UTXO.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct OutputRecord {
-    pub output_key: CompressedEdwardsY,   // 32 bytes
-    pub commitment: PedersenCommitment,   // 32 bytes
-    pub height: u64,                      // 8 bytes
-    pub tx_hash: [u8; 32],                // 32 bytes
-    pub output_index: u8,                 // 1 byte
+    pub output_key: CompressedEdwardsY, // 32 bytes
+    pub commitment: PedersenCommitment, // 32 bytes
+    pub height: u64,                    // 8 bytes
+    pub tx_hash: [u8; 32],              // 32 bytes
+    pub output_index: u8,               // 1 byte
 }
 
 impl OutputRecord {
@@ -29,23 +29,25 @@ impl OutputRecord {
         if bytes.len() != 105 {
             return Err(StorageError::RecordSizeMismatch);
         }
-        
+
         // Use from_slice safely (from_slice expects 32 bytes always, no unwraps needed on correct length if it fails later)
-        let output_key = CompressedEdwardsY::from_slice(&bytes[0..32])
-            .map_err(|_| StorageError::InvalidKey)?;
-        let commit_point = CompressedEdwardsY::from_slice(&bytes[32..64])
-            .map_err(|_| StorageError::InvalidKey)?;
-        
+        let output_key =
+            CompressedEdwardsY::from_slice(&bytes[0..32]).map_err(|_| StorageError::InvalidKey)?;
+        let commit_point =
+            CompressedEdwardsY::from_slice(&bytes[32..64]).map_err(|_| StorageError::InvalidKey)?;
+
         let mut height_bytes = [0u8; 8];
         height_bytes.copy_from_slice(&bytes[64..72]);
         let height = u64::from_le_bytes(height_bytes);
-        
+
         let mut tx_hash = [0u8; 32];
         tx_hash.copy_from_slice(&bytes[72..104]);
-        
+
         Ok(Self {
             output_key,
-            commitment: PedersenCommitment { commitment: commit_point },
+            commitment: PedersenCommitment {
+                commitment: commit_point,
+            },
             height,
             tx_hash,
             output_index: bytes[104],

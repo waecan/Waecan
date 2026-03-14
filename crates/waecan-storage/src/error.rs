@@ -16,7 +16,7 @@ pub enum StorageError {
 
     #[error("Missing CF: {0}")]
     MissingColumnFamily(&'static str),
-    
+
     #[error("Failed to serialize block")]
     SerializationError,
 }

@@ -1,19 +1,99 @@
 [1m[92m    Updating[0m crates.io index
-[1m[92m     Locking[0m 47 packages to latest compatible versions
+[1m[92m     Locking[0m 87 packages to latest compatible versions
 [1m[92m      Adding[0m generic-array v0.14.7 [1m[33m(available: v0.14.9)[0m
 [1m[92m      Adding[0m rand v0.8.5 [1m[33m(available: v0.10.0)[0m
 [1m[92m      Adding[0m rand_chacha v0.3.1 [1m[33m(available: v0.10.0)[0m
+[1m[92m      Adding[0m rocksdb v0.21.0 [1m[33m(available: v0.24.0)[0m
 [1m[92m      Adding[0m thiserror v1.0.69 [1m[33m(available: v2.0.18)[0m
-[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
+[1m[92m Downloading[0m crates ...
+[1m[92m  Downloaded[0m bitflags v1.3.2
+[1m[92m  Downloaded[0m bitflags v2.11.0
+[1m[92m  Downloaded[0m cc v1.2.57
+[1m[92m  Downloaded[0m rustc-hash v2.1.1
+[1m[92m  Downloaded[0m shlex v1.3.0
+[1m[92m  Downloaded[0m libloading v0.8.9
+[1m[92m  Downloaded[0m find-msvc-tools v0.1.9
+[1m[92m  Downloaded[0m minimal-lexical v0.2.1
+[1m[92m  Downloaded[0m prettyplease v0.2.37
+[1m[92m  Downloaded[0m memchr v2.8.0
+[1m[92m  Downloaded[0m regex v1.12.3
+[1m[92m  Downloaded[0m aho-corasick v1.1.4
+[1m[92m  Downloaded[0m vcpkg v0.2.15
+[1m[92m  Downloaded[0m bindgen v0.72.1
+[1m[92m  Downloaded[0m nom v7.1.3
+[1m[92m  Downloaded[0m itertools v0.13.0
+[1m[92m  Downloaded[0m bindgen v0.65.1
+[1m[92m  Downloaded[0m pkg-config v0.3.32
+[1m[92m  Downloaded[0m lazy_static v1.5.0
+[1m[92m  Downloaded[0m rocksdb v0.21.0
+[1m[92m  Downloaded[0m regex-syntax v0.8.10
+[1m[92m  Downloaded[0m jobserver v0.1.34
+[1m[92m  Downloaded[0m either v1.15.0
+[1m[92m  Downloaded[0m cexpr v0.6.0
+[1m[92m  Downloaded[0m rustc-hash v1.1.0
+[1m[92m  Downloaded[0m bzip2-sys v0.1.13+1.0.8
+[1m[92m  Downloaded[0m peeking_take_while v0.1.2
+[1m[92m  Downloaded[0m lazycell v1.3.0
+[1m[92m  Downloaded[0m glob v0.3.3
+[1m[92m  Downloaded[0m clang-sys v1.8.1
+[1m[92m  Downloaded[0m lz4-sys v1.11.1+lz4-1.10.0
+[1m[92m  Downloaded[0m regex-automata v0.4.14
+[1m[92m  Downloaded[0m libz-sys v1.1.25
+[1m[92m  Downloaded[0m zstd-sys v2.0.16+zstd.1.5.7
+[1m[92m  Downloaded[0m librocksdb-sys v0.11.0+8.1.1
+[1m[92m   Compiling[0m libc v0.2.183
+[1m[92m   Compiling[0m shlex v1.3.0
+[1m[92m   Compiling[0m find-msvc-tools v0.1.9
+[1m[92m   Compiling[0m syn v2.0.117
+[1m[92m   Compiling[0m glob v0.3.3
+[1m[92m   Compiling[0m pkg-config v0.3.32
+[1m[92m   Compiling[0m clang-sys v1.8.1
+[1m[92m   Compiling[0m regex-syntax v0.8.10
+[1m[92m   Compiling[0m minimal-lexical v0.2.1
+[1m[92m   Compiling[0m memchr v2.8.0
+[1m[92m   Compiling[0m jobserver v0.1.34
+[1m[92m   Compiling[0m cc v1.2.57
+[1m[92m   Compiling[0m nom v7.1.3
+[1m[92m   Compiling[0m regex-automata v0.4.14
+[1m[92m   Compiling[0m getrandom v0.2.17
+[1m[92m   Compiling[0m libloading v0.8.9
+[1m[92m   Compiling[0m rand_core v0.6.4
+[1m[92m   Compiling[0m cexpr v0.6.0
+[1m[92m   Compiling[0m either v1.15.0
+[1m[92m   Compiling[0m prettyplease v0.2.37
+[1m[92m   Compiling[0m bindgen v0.72.1
+[1m[92m   Compiling[0m regex v1.12.3
+[1m[92m   Compiling[0m curve25519-dalek-derive v0.1.1
+[1m[92m   Compiling[0m thiserror-impl v1.0.69
+[1m[92m   Compiling[0m itertools v0.13.0
+[1m[92m   Compiling[0m curve25519-dalek v4.1.3
+[1m[92m   Compiling[0m rand_chacha v0.3.1
+[1m[92m   Compiling[0m rustc-hash v2.1.1
+[1m[92m   Compiling[0m bitflags v2.11.0
+[1m[92m   Compiling[0m ed25519-dalek v2.2.0
+[1m[92m   Compiling[0m rand v0.8.5
+[1m[92m   Compiling[0m thiserror v1.0.69
+[1m[92m   Compiling[0m bindgen v0.65.1
+[1m[92m   Compiling[0m vcpkg v0.2.15
+[1m[92m   Compiling[0m bzip2-sys v0.1.13+1.0.8
+[1m[92m   Compiling[0m lz4-sys v1.11.1+lz4-1.10.0
+[1m[92m   Compiling[0m libz-sys v1.1.25
+[1m[92m   Compiling[0m peeking_take_while v0.1.2
+[1m[92m   Compiling[0m bitflags v1.3.2
+[1m[92m   Compiling[0m lazycell v1.3.0
+[1m[92m   Compiling[0m lazy_static v1.5.0
+[1m[92m   Compiling[0m rustc-hash v1.1.0
 [1m[92m   Compiling[0m waecan-crypto v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-crypto)
-[1m[92m   Compiling[0m waecan-wallet v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-wallet)
-[1m[92m   Compiling[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
-[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
-[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
-[1m[92m   Compiling[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
-[1m[92m   Compiling[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
-[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
+[1m[92m   Compiling[0m zstd-sys v2.0.16+zstd.1.5.7
+[1m[92m   Compiling[0m librocksdb-sys v0.11.0+8.1.1
 [1m[92m   Compiling[0m waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)
+[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
+[1m[92m   Compiling[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
+[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
+[1m[92m   Compiling[0m waecan-wallet v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-wallet)
+[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
+[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
+[1m[92m   Compiling[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
 [1m[33mwarning[0m[1m: unused import: `curve25519_dalek::scalar::Scalar`[0m
    [1m[94m--> [0mcrates/waecan-core/src/validation.rs:106:9
     [1m[94m|[0m
@@ -23,178 +103,68 @@
     [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
 [1m[33mwarning[0m: `waecan-core` (lib test) generated 1 warning (run `cargo fix --lib -p waecan-core --tests` to apply 1 suggestion)
-[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 1.10s
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_cli-612f067b167acd62)
+[1m[92m   Compiling[0m rocksdb v0.21.0
+[1m[92m   Compiling[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
+[1m[91merror[E0433][0m[1m: failed to resolve: use of unresolved module or unlinked crate `curve25519_dalek`[0m
+ [1m[94m--> [0mcrates/waecan-storage/src/db.rs:1:5
+  [1m[94m|[0m
+[1m[94m1[0m [1m[94m|[0m use curve25519_dalek::edwards::CompressedEdwardsY;
+  [1m[94m|[0m     [1m[91m^^^^^^^^^^^^^^^^[0m [1m[91muse of unresolved module or unlinked crate `curve25519_dalek`[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `curve25519_dalek`, use `cargo add curve25519_dalek` to add it to your `Cargo.toml`
 
-running 0 tests
+[1m[91merror[E0433][0m[1m: failed to resolve: use of unresolved module or unlinked crate `curve25519_dalek`[0m
+ [1m[94m--> [0mcrates/waecan-storage/src/record.rs:1:5
+  [1m[94m|[0m
+[1m[94m1[0m [1m[94m|[0m use curve25519_dalek::edwards::CompressedEdwardsY;
+  [1m[94m|[0m     [1m[91m^^^^^^^^^^^^^^^^[0m [1m[91muse of unresolved module or unlinked crate `curve25519_dalek`[0m
+  [1m[94m|[0m
+  [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `curve25519_dalek`, use `cargo add curve25519_dalek` to add it to your `Cargo.toml`
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+[1m[91merror[E0425][0m[1m: cannot find function `serialize_header` in module `waecan_core::block`[0m
+  [1m[94m--> [0mcrates/waecan-storage/src/db.rs:55:46
+   [1m[94m|[0m
+[1m[94m55[0m [1m[94m|[0m         let block_hash = waecan_core::block::serialize_header(&block.header);
+   [1m[94m|[0m                                              [1m[91m^^^^^^^^^^^^^^^^[0m [1m[91mnot found in `waecan_core::block`[0m
 
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_core-a3dc5fe9a40d652a)
+[1m[91merror[E0282][0m[1m: type annotations needed[0m
+  [1m[94m--> [0mcrates/waecan-storage/src/db.rs:69:39
+   [1m[94m|[0m
+[1m[94m69[0m [1m[94m|[0m             batch.delete_cf(&utxo_cf, key.as_bytes());
+   [1m[94m|[0m                                       [1m[91m^^^[0m [1m[91mcannot infer type[0m
 
-running 15 tests
-test block::tests::test_block_reward_schedule ... ok
-test block::tests::test_serialize_header_97_bytes ... ok
-test validation::tests::test_rule_1_version ... ok
-test validation::tests::test_fee_burn_invariant ... ok
-test validation::tests::test_rule_10_extra_len ... ok
-test validation::tests::test_rule_11_tx_pubkey_subgroup ... ok
-test validation::tests::test_rule_3_min_fee ... ok
-test validation::tests::test_rule_4_ring_size ... ok
-test validation::tests::test_rule_5_key_image_spent ... ok
-test validation::tests::test_rule_6_mlsag_verify ... ok
-test validation::tests::test_rule_2_io_counts ... ok
-test validation::tests::test_rule_7_bulletproof_valid ... ok
-test validation::tests::test_rule_8_balance_proof ... ok
-test validation::tests::test_valid_tx_passes ... ok
-test validation::tests::test_rule_9_tx_size_limit ... ok
+[1m[91merror[E0282][0m[1m: type annotations needed[0m
+  [1m[94m--> [0mcrates/waecan-storage/src/db.rs:74:42
+   [1m[94m|[0m
+[1m[94m74[0m [1m[94m|[0m             batch.put_cf(&key_images_cf, img.as_bytes(), &block.header.height.to_le_bytes());
+   [1m[94m|[0m                                          [1m[91m^^^[0m [1m[91mcannot infer type[0m
 
-test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.38s
+[1m[91merror[E0282][0m[1m: type annotations needed[0m
+   [1m[94m--> [0mcrates/waecan-storage/src/db.rs:104:39
+    [1m[94m|[0m
+[1m[94m104[0m [1m[94m|[0m             batch.delete_cf(&utxo_cf, key.as_bytes());
+    [1m[94m|[0m                                       [1m[91m^^^[0m [1m[91mcannot infer type[0m
 
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_crypto-e439480c55233157)
+[1m[91merror[E0282][0m[1m: type annotations needed[0m
+   [1m[94m--> [0mcrates/waecan-storage/src/db.rs:114:45
+    [1m[94m|[0m
+[1m[94m114[0m [1m[94m|[0m             batch.delete_cf(&key_images_cf, img.as_bytes());
+    [1m[94m|[0m                                             [1m[91m^^^[0m [1m[91mcannot infer type[0m
 
-running 39 tests
-test address::tests::test_address_length ... ok
-test address::tests::test_corrupted_data_rejected ... ok
-test address::tests::test_invalid_prefix_rejected ... ok
-test hash::tests::test_hash_to_point_deterministic ... ok
-test hash::tests::test_hash_to_point_not_identity ... ok
-test hash::tests::test_hash_to_point_valid_subgroup ... ok
-test hash::tests::test_keccak256_deterministic ... ok
-test hash::tests::test_keccak256_known_vector ... ok
-test hash::tests::test_keccak256_to_scalar_deterministic ... ok
-test hash::tests::test_keccak256_to_scalar_different_inputs ... ok
-test address::tests::test_different_keys_different_addresses ... ok
-test address::tests::test_roundtrip ... ok
-test address::tests::test_testnet_roundtrip ... ok
-test keys::tests::test_mnemonic_hex_length ... ok
-test keys::tests::test_master_seed_generation ... ok
-test keys::tests::test_spend_and_view_keys_differ ... ok
-test keys::tests::test_derive_keypairs_deterministic ... ok
-test keys::tests::test_different_seeds_different_keys ... ok
-test keys::tests::test_public_matches_private ... ok
-test pedersen::tests::test_different_amounts ... ok
-test pedersen::tests::test_commitment_deterministic ... ok
-test pedersen::tests::test_fee_burn_100_transactions ... ok
-test pedersen::tests::test_generator_h_in_subgroup ... ok
-test pedersen::tests::test_generator_h_not_basepoint ... ok
-test pedersen::tests::test_balance_proof_invalid ... ok
-test pedersen::tests::test_balance_proof_valid ... ok
-test pedersen::tests::test_zero_amount ... ok
-test ring_sig::tests::test_key_image_deterministic ... ok
-test ring_sig::tests::test_different_keys_different_images ... ok
-test ring_sig::tests::test_key_image_matches_computed ... ok
-test ring_sig::tests::test_wrong_ring_size_rejected ... ok
-test stealth::tests::test_output_private_key_matches ... ok
-test stealth::tests::test_stealth_roundtrip ... ok
-test stealth::tests::test_two_recipients ... ok
-test ring_sig::tests::test_wrong_message_rejected ... ok
-test ring_sig::tests::test_sign_and_verify ... ok
-test ring_sig::tests::test_tampered_signature_rejected ... ok
-test stealth::tests::test_unlinkable_outputs ... ok
-test stealth::tests::test_wrong_view_key_fails ... ok
+[1m[91merror[E0308][0m[1m: mismatched types[0m
+   [1m[94m--> [0mcrates/waecan-storage/src/db.rs:126:9
+    [1m[94m|[0m
+[1m[94m125[0m [1m[94m|[0m       pub fn cf(&self, name: &'static str) -> Result<std::sync::Arc<rocksdb::BoundColumnFamily>, StorageError> {
+    [1m[94m|[0m                                               [1m[94m----------------------------------------------------------------[0m [1m[94mexpected `Result<Arc<BoundColumnFamily<'_>>, StorageError>` because of return type[0m
+[1m[94m126[0m [1m[94m|[0m [1m[91m/[0m         self.db
+[1m[94m127[0m [1m[94m|[0m [1m[91m|[0m             .cf_handle(name)
+[1m[94m128[0m [1m[94m|[0m [1m[91m|[0m             .ok_or(StorageError::MissingColumnFamily(name))
+    [1m[94m|[0m [1m[91m|___________________________________________________________^[0m [1m[91mexpected `Result<Arc<BoundColumnFamily<'_>>, ...>`, found `Result<&ColumnFamily, StorageError>`[0m
+    [1m[94m|[0m
+    [1m[94m= [0m[1mnote[0m: expected enum `Result<[1m[35mArc<BoundColumnFamily<'_>>[0m, _>`
+               found enum `Result<[1m[35m&[0m[1m[35mColumnFamily[0m, _>`
 
-test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.47s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_mempool-650dd90c1666fa7b)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_miner-1b16ee9779319222)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_node-f5ca024564cc263f)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_p2p-66c0642734318756)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_rpc-6e909c4fbc10efac)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_storage-37045b74ec36f0f1)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_wallet-0d99a801fb6e4cdb)
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_cli
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_core
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_crypto
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_mempool
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_miner
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_node
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_p2p
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_rpc
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_storage
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-[1m[92m   Doc-tests[0m waecan_wallet
-
-running 0 tests
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
+[1mSome errors have detailed explanations: E0282, E0308, E0425, E0433.[0m
+[1mFor more information about an error, try `rustc --explain E0282`.[0m
+[1m[91merror[0m: could not compile `waecan-storage` (lib) due to 8 previous errors
+[1m[33mwarning[0m: build failed, waiting for other jobs to finish...

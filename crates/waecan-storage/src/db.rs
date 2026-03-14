@@ -54,7 +54,7 @@ impl WaecanDB {
         // 1. Store block
         let block_hash = waecan_core::block::serialize_header(&block.header);
         let hash_id = waecan_crypto::hash::keccak256(&block_hash);
-        
+
         // Use a dummy serialization for the block since waecan-core doesn't have a canonical one yet.
         // We just store its header bytes for testing CF existence.
         batch.put_cf(&block_cf, &hash_id, &block_hash);
@@ -71,7 +71,11 @@ impl WaecanDB {
 
         // 4. Record key images (double-spend prevention)
         for img in key_images {
-            batch.put_cf(&key_images_cf, img.as_bytes(), &block.header.height.to_le_bytes());
+            batch.put_cf(
+                &key_images_cf,
+                img.as_bytes(),
+                &block.header.height.to_le_bytes(),
+            );
         }
 
         // 5. Update chain tip
@@ -122,7 +126,10 @@ impl WaecanDB {
         Ok(())
     }
 
-    pub fn cf(&self, name: &'static str) -> Result<std::sync::Arc<rocksdb::BoundColumnFamily>, StorageError> {
+    pub fn cf(
+        &self,
+        name: &'static str,
+    ) -> Result<std::sync::Arc<rocksdb::BoundColumnFamily>, StorageError> {
         self.db
             .cf_handle(name)
             .ok_or(StorageError::MissingColumnFamily(name))

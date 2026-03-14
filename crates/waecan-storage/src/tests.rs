@@ -1,16 +1,16 @@
-use std::fs;
-use std::path::PathBuf;
 use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
 use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
 use curve25519_dalek::scalar::Scalar;
 use rand::SeedableRng;
 use rand_chacha::ChaCha20Rng;
+use std::fs;
+use std::path::PathBuf;
 
-use waecan_core::block::{Block, BlockHeader, CoinbaseTx, serialize_header};
-use waecan_crypto::pedersen::PedersenCommitment;
+use waecan_core::block::{serialize_header, Block, BlockHeader, CoinbaseTx};
 use waecan_crypto::hash::keccak256;
+use waecan_crypto::pedersen::PedersenCommitment;
 
-use crate::db::{WaecanDB, CF_UTXO, CF_KEY_IMAGES, CF_CHAIN_META};
+use crate::db::{WaecanDB, CF_CHAIN_META, CF_KEY_IMAGES, CF_UTXO};
 use crate::record::OutputRecord;
 
 fn temp_db_path(name: &str) -> PathBuf {
@@ -50,7 +50,7 @@ fn test_1_commit_verify_utxo() {
     let block = dummy_block(1);
     let out_point = CompressedEdwardsY::from_slice(&[42u8; 32]).unwrap();
     let blind = Scalar::ZERO;
-    
+
     let out = OutputRecord {
         output_key: out_point,
         commitment: PedersenCommitment::commit(100, &blind),
@@ -81,9 +81,9 @@ fn test_2_key_image_double_spend() {
 
     let cf = db.cf(CF_KEY_IMAGES).unwrap();
     let val = db.db.get_cf(&cf, ki.as_bytes()).unwrap().unwrap();
-    
+
     // Proves the double spend check can read it
-    assert_eq!(val.len(), 8); 
+    assert_eq!(val.len(), 8);
     assert_eq!(u64::from_le_bytes(val.try_into().unwrap()), 1);
 }
 
@@ -115,14 +115,14 @@ fn test_4_atomic_rollback_simulation() {
 
     let block1 = dummy_block(1);
     db.commit_block(&block1, &[], &[], &[]).unwrap();
-    
+
     // Simulate failure by constructing a batch but failing midway and never writing it.
     // In Rust RocksDB, the batch is completely atomic and is only committed on `.write(batch)`.
     // Since we can't purposefully panic inside `.write(batch)` easily, the atomicity of WriteBatch is guaranteed by RocksDB itself.
     let mut batch = rocksdb::WriteBatch::default();
     let cf = db.cf(CF_UTXO).unwrap();
     batch.put_cf(&cf, b"fake_out", b"data");
-    
+
     // Never write the batch
     drop(batch);
 
@@ -139,28 +139,29 @@ fn test_5_fee_burn_invariant() {
     let mut total_rewards = 0u64;
     let mut total_fees_burned = 0u64;
     let mut total_blindings = Scalar::ZERO;
-    
+
     let mut sum_utxo_points = EdwardsPoint::default();
 
     for h_loop in 1..=100 {
         let height = h_loop as u64;
         let mut block = dummy_block(height);
-        
+
         let reward = waecan_core::block::block_reward(height);
         let fee = 1_000_000_000;
-        
+
         total_rewards += reward;
         total_fees_burned += fee;
-        
+
         // Miner gets reward - fee isn't given to miner!
         let out_value = reward - fee;
         let out_blind = Scalar::from(height);
         total_blindings += out_blind;
-        
+
         let commit = PedersenCommitment::commit(out_value, &out_blind);
-        
-        let out_key = CompressedEdwardsY::from_slice(&[height as u8; 32]).unwrap_or_else(|_| CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap());
-        
+
+        let out_key = CompressedEdwardsY::from_slice(&[height as u8; 32])
+            .unwrap_or_else(|_| CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap());
+
         let out = OutputRecord {
             output_key: out_key,
             commitment: commit.clone(),
@@ -168,16 +169,16 @@ fn test_5_fee_burn_invariant() {
             tx_hash: [0u8; 32],
             output_index: 0,
         };
-        
+
         db.commit_block(&block, &[out], &[], &[]).unwrap();
-        
+
         sum_utxo_points += commit.commitment.decompress().unwrap();
     }
-    
+
     // The homomorphic invariant: sum(UTXO commitments) == commit(sum(rewards) - sum(fees), sum(blindings))
     let expected_net_supply = total_rewards - total_fees_burned;
     let expected_commit = PedersenCommitment::commit(expected_net_supply, &total_blindings);
-    
+
     assert_eq!(sum_utxo_points.compress(), expected_commit.commitment);
 }
 
@@ -215,21 +216,45 @@ fn test_6_block_disconnect_reorg() {
         tx_hash: [3u8; 32],
         output_index: 0,
     };
-    db.commit_block(&block3, &[out3.clone()], &[out2.output_key], &[]).unwrap();
+    db.commit_block(&block3, &[out3.clone()], &[out2.output_key], &[])
+        .unwrap();
 
     // Now disconnect block 3
-    let b2_hash = waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block2.header));
-    db.block_disconnect(&block3, &[out3.output_key], &[out2.clone()], &[], &b2_hash, 2).unwrap();
+    let b2_hash =
+        waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block2.header));
+    db.block_disconnect(
+        &block3,
+        &[out3.output_key],
+        &[out2.clone()],
+        &[],
+        &b2_hash,
+        2,
+    )
+    .unwrap();
 
     // Now disconnect block 2
-    let b1_hash = waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block1.header));
-    db.block_disconnect(&block2, &[out2.output_key], &[], &[], &b1_hash, 1).unwrap();
+    let b1_hash =
+        waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block1.header));
+    db.block_disconnect(&block2, &[out2.output_key], &[], &[], &b1_hash, 1)
+        .unwrap();
 
     // Verify UTXO matches state after block 1 only
     let cf = db.cf(CF_UTXO).unwrap();
-    assert!(db.db.get_cf(&cf, out1.output_key.as_bytes()).unwrap().is_some());
-    assert!(db.db.get_cf(&cf, out2.output_key.as_bytes()).unwrap().is_none());
-    assert!(db.db.get_cf(&cf, out3.output_key.as_bytes()).unwrap().is_none());
+    assert!(db
+        .db
+        .get_cf(&cf, out1.output_key.as_bytes())
+        .unwrap()
+        .is_some());
+    assert!(db
+        .db
+        .get_cf(&cf, out2.output_key.as_bytes())
+        .unwrap()
+        .is_none());
+    assert!(db
+        .db
+        .get_cf(&cf, out3.output_key.as_bytes())
+        .unwrap()
+        .is_none());
 
     let meta_cf = db.cf(CF_CHAIN_META).unwrap();
     let tip = db.db.get_cf(&meta_cf, b"tip_height").unwrap().unwrap();
