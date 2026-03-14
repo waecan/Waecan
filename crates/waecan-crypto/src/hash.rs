@@ -3,7 +3,6 @@
 //! Provides Keccak-256 hashing, scalar derivation, and hash-to-point
 //! mapping needed by stealth addresses, ring signatures, and key images.
 
-
 use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
 use curve25519_dalek::scalar::Scalar;
 use tiny_keccak::{Hasher, Keccak};
