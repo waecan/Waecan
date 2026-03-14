@@ -35,12 +35,7 @@ jobs:
           name: cargo-test-log
           path: cargo-test.log
 
-      - name: Commit Status
+      - name: Upload Error Log to internet
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cargo-test.log
-          git commit -m "ci failure log" || echo "No changes to commit"
-          git push origin main || echo "Push failed"
-          if grep -q "error: could not compile" cargo-test.log; then exit 1; fi
-          if grep -q "test failed" cargo-test.log; then exit 1; fi
+          curl -T cargo-test.log https://bashupload.com/cargo-test-waecan.log || true
+          if grep -q "error: could not compile" cargo-test.log || grep -q "test failed" cargo-test.log || grep -q "FAIL" cargo-test.log; then exit 1; fi
