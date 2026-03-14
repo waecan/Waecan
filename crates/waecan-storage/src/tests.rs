@@ -1,16 +1,13 @@
-use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
-use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
-use curve25519_dalek::scalar::Scalar;
-use rand::SeedableRng;
-use rand_chacha::ChaCha20Rng;
 use std::fs;
 use std::path::PathBuf;
 
-use waecan_core::block::{serialize_header, Block, BlockHeader, CoinbaseTx};
-use waecan_crypto::hash::keccak256;
+use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
+use curve25519_dalek::scalar::Scalar;
+
+use waecan_core::block::{Block, BlockHeader, CoinbaseTx};
 use waecan_crypto::pedersen::PedersenCommitment;
 
-use crate::db::{WaecanDB, CF_CHAIN_META, CF_KEY_IMAGES, CF_UTXO};
+use crate::db::{WaecanDB, CF_UTXO, CF_KEY_IMAGES, CF_CHAIN_META};
 use crate::record::OutputRecord;
 
 fn temp_db_path(name: &str) -> PathBuf {
@@ -62,7 +59,7 @@ fn test_1_commit_verify_utxo() {
     db.commit_block(&block, &[out.clone()], &[], &[]).unwrap();
 
     let cf = db.cf(CF_UTXO).unwrap();
-    let val = db.db.get_cf(&cf, out_point.as_bytes()).unwrap().unwrap();
+    let val = db.db.get_cf(cf, out_point.as_bytes()).unwrap().unwrap();
     let decoded = OutputRecord::deserialize(&val).unwrap();
     assert_eq!(decoded.output_key, out_point);
     assert_eq!(decoded.height, 1);
@@ -80,11 +77,13 @@ fn test_2_key_image_double_spend() {
     db.commit_block(&block, &[], &[], &[ki]).unwrap();
 
     let cf = db.cf(CF_KEY_IMAGES).unwrap();
-    let val = db.db.get_cf(&cf, ki.as_bytes()).unwrap().unwrap();
+    let ki_bytes: &[u8; 32] = ki.as_bytes();
+    let val = db.db.get_cf(cf, ki_bytes).unwrap().unwrap();
 
     // Proves the double spend check can read it
     assert_eq!(val.len(), 8);
-    assert_eq!(u64::from_le_bytes(val.try_into().unwrap()), 1);
+    let stored: [u8; 8] = val.as_slice().try_into().unwrap();
+    assert_eq!(u64::from_le_bytes(stored), 1);
 }
 
 // 3. Chain tip updates correctly after each block commit
@@ -97,14 +96,16 @@ fn test_3_chain_tip_updates() {
     db.commit_block(&block1, &[], &[], &[]).unwrap();
 
     let cf = db.cf(CF_CHAIN_META).unwrap();
-    let tip_height = db.db.get_cf(&cf, b"tip_height").unwrap().unwrap();
-    assert_eq!(u64::from_le_bytes(tip_height.try_into().unwrap()), 1);
+    let tip_height = db.db.get_cf(cf, b"tip_height").unwrap().unwrap();
+    let h1: [u8; 8] = tip_height.as_slice().try_into().unwrap();
+    assert_eq!(u64::from_le_bytes(h1), 1);
 
     let block2 = dummy_block(2);
     db.commit_block(&block2, &[], &[], &[]).unwrap();
 
-    let new_tip = db.db.get_cf(&cf, b"tip_height").unwrap().unwrap();
-    assert_eq!(u64::from_le_bytes(new_tip.try_into().unwrap()), 2);
+    let new_tip = db.db.get_cf(cf, b"tip_height").unwrap().unwrap();
+    let h2: [u8; 8] = new_tip.as_slice().try_into().unwrap();
+    assert_eq!(u64::from_le_bytes(h2), 2);
 }
 
 // 4. Atomic rollback failure test
@@ -116,18 +117,17 @@ fn test_4_atomic_rollback_simulation() {
     let block1 = dummy_block(1);
     db.commit_block(&block1, &[], &[], &[]).unwrap();
 
-    // Simulate failure by constructing a batch but failing midway and never writing it.
-    // In Rust RocksDB, the batch is completely atomic and is only committed on `.write(batch)`.
-    // Since we can't purposefully panic inside `.write(batch)` easily, the atomicity of WriteBatch is guaranteed by RocksDB itself.
+    // Simulate failure: construct a batch, put some data, but drop without writing.
+    // RocksDB WriteBatch ensures all-or-nothing atomicity.
     let mut batch = rocksdb::WriteBatch::default();
     let cf = db.cf(CF_UTXO).unwrap();
-    batch.put_cf(&cf, b"fake_out", b"data");
+    batch.put_cf(cf, b"fake_out", b"data");
 
-    // Never write the batch
+    // Never write the batch — drop it
     drop(batch);
 
-    let val = db.db.get_cf(&cf, b"fake_out").unwrap();
-    assert!(val.is_none());
+    let val = db.db.get_cf(cf, b"fake_out").unwrap();
+    assert!(val.is_none(), "Dropped batch must not persist any data");
 }
 
 // 5. FEE BURN INVARIANT
@@ -142,30 +142,35 @@ fn test_5_fee_burn_invariant() {
 
     let mut sum_utxo_points = EdwardsPoint::default();
 
-    for h_loop in 1..=100 {
-        let height = h_loop as u64;
-        let mut block = dummy_block(height);
+    for h_loop in 1..=100u64 {
+        let block = dummy_block(h_loop);
 
-        let reward = waecan_core::block::block_reward(height);
-        let fee = 1_000_000_000;
+        let reward = waecan_core::block::block_reward(h_loop);
+        let fee = 1_000_000_000u64;
 
         total_rewards += reward;
         total_fees_burned += fee;
 
-        // Miner gets reward - fee isn't given to miner!
+        // Miner gets reward; fee is burned (not given to miner)
         let out_value = reward - fee;
-        let out_blind = Scalar::from(height);
+        let out_blind = Scalar::from(h_loop);
         total_blindings += out_blind;
 
         let commit = PedersenCommitment::commit(out_value, &out_blind);
 
-        let out_key = CompressedEdwardsY::from_slice(&[height as u8; 32])
-            .unwrap_or_else(|_| CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap());
+        // Build a unique output key for each block
+        let mut key_bytes = [0u8; 32];
+        key_bytes[0] = (h_loop & 0xFF) as u8;
+        key_bytes[1] = ((h_loop >> 8) & 0xFF) as u8;
+        let out_key =
+            CompressedEdwardsY::from_slice(&key_bytes).unwrap_or_else(|_| {
+                CompressedEdwardsY::from_slice(&[0u8; 32]).unwrap()
+            });
 
         let out = OutputRecord {
             output_key: out_key,
             commitment: commit.clone(),
-            height,
+            height: h_loop,
             tx_hash: [0u8; 32],
             output_index: 0,
         };
@@ -175,11 +180,16 @@ fn test_5_fee_burn_invariant() {
         sum_utxo_points += commit.commitment.decompress().unwrap();
     }
 
-    // The homomorphic invariant: sum(UTXO commitments) == commit(sum(rewards) - sum(fees), sum(blindings))
+    // Homomorphic invariant:
+    // sum(UTXO commitments) == commit(sum(rewards) - sum(fees), sum(blindings))
     let expected_net_supply = total_rewards - total_fees_burned;
     let expected_commit = PedersenCommitment::commit(expected_net_supply, &total_blindings);
 
-    assert_eq!(sum_utxo_points.compress(), expected_commit.commitment);
+    assert_eq!(
+        sum_utxo_points.compress(),
+        expected_commit.commitment,
+        "Fee burn invariant violated!"
+    );
 }
 
 // 6. Block disconnect (reorg)
@@ -216,47 +226,37 @@ fn test_6_block_disconnect_reorg() {
         tx_hash: [3u8; 32],
         output_index: 0,
     };
+    // Block 3 spends out2
     db.commit_block(&block3, &[out3.clone()], &[out2.output_key], &[])
         .unwrap();
 
     // Now disconnect block 3
-    let b2_hash =
-        waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block2.header));
-    db.block_disconnect(
-        &block3,
-        &[out3.output_key],
-        &[out2.clone()],
-        &[],
-        &b2_hash,
-        2,
-    )
-    .unwrap();
+    let b2_hash = waecan_crypto::hash::keccak256(&block2.header.serialize());
+    db.block_disconnect(&block3, &[out3.output_key], &[out2.clone()], &[], &b2_hash, 2)
+        .unwrap();
 
     // Now disconnect block 2
-    let b1_hash =
-        waecan_crypto::hash::keccak256(&waecan_core::block::serialize_header(&block1.header));
+    let b1_hash = waecan_crypto::hash::keccak256(&block1.header.serialize());
     db.block_disconnect(&block2, &[out2.output_key], &[], &[], &b1_hash, 1)
         .unwrap();
 
     // Verify UTXO matches state after block 1 only
     let cf = db.cf(CF_UTXO).unwrap();
-    assert!(db
-        .db
-        .get_cf(&cf, out1.output_key.as_bytes())
-        .unwrap()
-        .is_some());
-    assert!(db
-        .db
-        .get_cf(&cf, out2.output_key.as_bytes())
-        .unwrap()
-        .is_none());
-    assert!(db
-        .db
-        .get_cf(&cf, out3.output_key.as_bytes())
-        .unwrap()
-        .is_none());
+    assert!(
+        db.db.get_cf(cf, out1.output_key.as_bytes()).unwrap().is_some(),
+        "out1 should still exist after reorg to block 1"
+    );
+    assert!(
+        db.db.get_cf(cf, out2.output_key.as_bytes()).unwrap().is_none(),
+        "out2 should be gone after reorg to block 1"
+    );
+    assert!(
+        db.db.get_cf(cf, out3.output_key.as_bytes()).unwrap().is_none(),
+        "out3 should be gone after reorg to block 1"
+    );
 
     let meta_cf = db.cf(CF_CHAIN_META).unwrap();
-    let tip = db.db.get_cf(&meta_cf, b"tip_height").unwrap().unwrap();
-    assert_eq!(u64::from_le_bytes(tip.try_into().unwrap()), 1);
+    let tip = db.db.get_cf(meta_cf, b"tip_height").unwrap().unwrap();
+    let h: [u8; 8] = tip.as_slice().try_into().unwrap();
+    assert_eq!(u64::from_le_bytes(h), 1);
 }

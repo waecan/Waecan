@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 waecan-core = { path = "../waecan-core" }
 waecan-crypto = { path = "../waecan-crypto" }
+curve25519-dalek = "4.1"
 rocksdb = "0.21"
 thiserror = "1.0"
 
