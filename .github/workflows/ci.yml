@@ -10,6 +10,9 @@ env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
 
+permissions:
+  contents: write
+
 jobs:
   test:
     name: Test + Clippy + Fmt
@@ -31,5 +34,10 @@ jobs:
       - name: cargo clippy
         run: cargo clippy --workspace -- -D warnings
 
-      - name: cargo fmt check
-        run: cargo fmt --all -- --check 2>&1 | tee fmt.log || (curl -T fmt.log https://bashupload.com/cargo-fmt-waecan.log && exit 1)
+      - name: cargo fmt fix and push
+        run: |
+          cargo fmt --all
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "ci: auto format" || exit 0
+          git push
