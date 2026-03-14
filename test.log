@@ -4,40 +4,16 @@
 [1m[92m      Adding[0m rand v0.8.5 [1m[33m(available: v0.10.0)[0m
 [1m[92m      Adding[0m rand_chacha v0.3.1 [1m[33m(available: v0.10.0)[0m
 [1m[92m      Adding[0m thiserror v1.0.69 [1m[33m(available: v2.0.18)[0m
-[1m[92m   Compiling[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
+[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
 [1m[92m   Compiling[0m waecan-crypto v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-crypto)
 [1m[92m   Compiling[0m waecan-wallet v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-wallet)
-[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
-[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
-[1m[92m   Compiling[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
-[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
-[1m[92m   Compiling[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
 [1m[92m   Compiling[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
+[1m[92m   Compiling[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
+[1m[92m   Compiling[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
+[1m[92m   Compiling[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
+[1m[92m   Compiling[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
+[1m[92m   Compiling[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
 [1m[92m   Compiling[0m waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)
-[1m[91merror[E0432][0m[1m: unresolved import `rand`[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:107:9
-    [1m[94m|[0m
-[1m[94m107[0m [1m[94m|[0m     use rand::SeedableRng;
-    [1m[94m|[0m         [1m[91m^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand`, use `cargo add rand` to add it to your `Cargo.toml`
-
-[1m[91merror[E0432][0m[1m: unresolved import `rand_chacha`[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:108:9
-    [1m[94m|[0m
-[1m[94m108[0m [1m[94m|[0m     use rand_chacha::ChaCha20Rng;
-    [1m[94m|[0m         [1m[91m^^^^^^^^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand_chacha`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand_chacha`, use `cargo add rand_chacha` to add it to your `Cargo.toml`
-
-[1m[91merror[E0433][0m[1m: failed to resolve: use of unresolved module or unlinked crate `rand`[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:115:9
-    [1m[94m|[0m
-[1m[94m115[0m [1m[94m|[0m         rand::RngCore::fill_bytes(&mut rng, &mut spend_bytes);
-    [1m[94m|[0m         [1m[91m^^^^[0m [1m[91muse of unresolved module or unlinked crate `rand`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mhelp[0m: if you wanted to use a crate named `rand`, use `cargo add rand` to add it to your `Cargo.toml`
-
 [1m[33mwarning[0m[1m: unused import: `curve25519_dalek::scalar::Scalar`[0m
    [1m[94m--> [0mcrates/waecan-core/src/validation.rs:106:9
     [1m[94m|[0m
@@ -46,37 +22,179 @@
     [1m[94m|[0m
     [1m[94m= [0m[1mnote[0m: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
 
-[1m[91merror[E0560][0m[1m: struct `RingMember` has no field named `key_image`[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:132:17
-    [1m[94m|[0m
-[1m[94m132[0m [1m[94m|[0m                 key_image: None,
-    [1m[94m|[0m                 [1m[91m^^^^^^^^^[0m [1m[91m`RingMember` does not have this field[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: all struct fields are already assigned
+[1m[33mwarning[0m: `waecan-core` (lib test) generated 1 warning (run `cargo fix --lib -p waecan-core --tests` to apply 1 suggestion)
+[1m[92m    Finished[0m `test` profile [unoptimized + debuginfo] target(s) in 1.10s
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_cli-612f067b167acd62)
 
-[1m[91merror[E0560][0m[1m: struct `RingMember` has no field named `key_image`[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:139:17
-    [1m[94m|[0m
-[1m[94m139[0m [1m[94m|[0m                 key_image: Some(
-    [1m[94m|[0m                 [1m[91m^^^^^^^^^[0m [1m[91m`RingMember` does not have this field[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: all struct fields are already assigned
+running 0 tests
 
-[1m[91merror[E0308][0m[1m: mismatched types[0m
-   [1m[94m--> [0mcrates/waecan-core/src/validation.rs:153:13
-    [1m[94m|[0m
-[1m[94m153[0m [1m[94m|[0m             ring_sig,
-    [1m[94m|[0m             [1m[91m^^^^^^^^[0m [1m[91mexpected `RingSignature`, found `Result<RingSignature, CryptoError>`[0m
-    [1m[94m|[0m
-    [1m[94m= [0m[1mnote[0m: expected struct `RingSignature`
-                 found enum `[1m[35mResult[0m[1m[35m<[0mRingSignature, [1m[35mCryptoError[0m[1m[35m>[0m`
-[1m[96mhelp[0m: consider using `Result::expect` to unwrap the `Result<RingSignature, CryptoError>` value, panicking if the value is a `Result::Err`
-    [1m[94m|[0m
-[1m[94m153[0m [1m[94m| [0m            ring_sig[92m: ring_sig.expect("REASON")[0m,
-    [1m[94m|[0m                     [92m+++++++++++++++++++++++++++[0m
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-[1mSome errors have detailed explanations: E0308, E0432, E0433, E0560.[0m
-[1mFor more information about an error, try `rustc --explain E0308`.[0m
-[1m[33mwarning[0m: `waecan-core` (lib test) generated 1 warning
-[1m[91merror[0m: could not compile `waecan-core` (lib test) due to 6 previous errors; 1 warning emitted
-[1m[33mwarning[0m: build failed, waiting for other jobs to finish...
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_core-a3dc5fe9a40d652a)
+
+running 15 tests
+test block::tests::test_block_reward_schedule ... ok
+test block::tests::test_serialize_header_97_bytes ... ok
+test validation::tests::test_rule_1_version ... ok
+test validation::tests::test_fee_burn_invariant ... ok
+test validation::tests::test_rule_10_extra_len ... ok
+test validation::tests::test_rule_11_tx_pubkey_subgroup ... ok
+test validation::tests::test_rule_3_min_fee ... ok
+test validation::tests::test_rule_4_ring_size ... ok
+test validation::tests::test_rule_5_key_image_spent ... ok
+test validation::tests::test_rule_6_mlsag_verify ... ok
+test validation::tests::test_rule_2_io_counts ... ok
+test validation::tests::test_rule_7_bulletproof_valid ... ok
+test validation::tests::test_rule_8_balance_proof ... ok
+test validation::tests::test_valid_tx_passes ... ok
+test validation::tests::test_rule_9_tx_size_limit ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.38s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_crypto-e439480c55233157)
+
+running 39 tests
+test address::tests::test_address_length ... ok
+test address::tests::test_corrupted_data_rejected ... ok
+test address::tests::test_invalid_prefix_rejected ... ok
+test hash::tests::test_hash_to_point_deterministic ... ok
+test hash::tests::test_hash_to_point_not_identity ... ok
+test hash::tests::test_hash_to_point_valid_subgroup ... ok
+test hash::tests::test_keccak256_deterministic ... ok
+test hash::tests::test_keccak256_known_vector ... ok
+test hash::tests::test_keccak256_to_scalar_deterministic ... ok
+test hash::tests::test_keccak256_to_scalar_different_inputs ... ok
+test address::tests::test_different_keys_different_addresses ... ok
+test address::tests::test_roundtrip ... ok
+test address::tests::test_testnet_roundtrip ... ok
+test keys::tests::test_mnemonic_hex_length ... ok
+test keys::tests::test_master_seed_generation ... ok
+test keys::tests::test_spend_and_view_keys_differ ... ok
+test keys::tests::test_derive_keypairs_deterministic ... ok
+test keys::tests::test_different_seeds_different_keys ... ok
+test keys::tests::test_public_matches_private ... ok
+test pedersen::tests::test_different_amounts ... ok
+test pedersen::tests::test_commitment_deterministic ... ok
+test pedersen::tests::test_fee_burn_100_transactions ... ok
+test pedersen::tests::test_generator_h_in_subgroup ... ok
+test pedersen::tests::test_generator_h_not_basepoint ... ok
+test pedersen::tests::test_balance_proof_invalid ... ok
+test pedersen::tests::test_balance_proof_valid ... ok
+test pedersen::tests::test_zero_amount ... ok
+test ring_sig::tests::test_key_image_deterministic ... ok
+test ring_sig::tests::test_different_keys_different_images ... ok
+test ring_sig::tests::test_key_image_matches_computed ... ok
+test ring_sig::tests::test_wrong_ring_size_rejected ... ok
+test stealth::tests::test_output_private_key_matches ... ok
+test stealth::tests::test_stealth_roundtrip ... ok
+test stealth::tests::test_two_recipients ... ok
+test ring_sig::tests::test_wrong_message_rejected ... ok
+test ring_sig::tests::test_sign_and_verify ... ok
+test ring_sig::tests::test_tampered_signature_rejected ... ok
+test stealth::tests::test_unlinkable_outputs ... ok
+test stealth::tests::test_wrong_view_key_fails ... ok
+
+test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.47s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_mempool-650dd90c1666fa7b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_miner-1b16ee9779319222)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_node-f5ca024564cc263f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_p2p-66c0642734318756)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_rpc-6e909c4fbc10efac)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_storage-37045b74ec36f0f1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m     Running[0m unittests src/lib.rs (target/debug/deps/waecan_wallet-0d99a801fb6e4cdb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_cli
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_crypto
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_mempool
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_miner
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_node
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_p2p
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_rpc
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_storage
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[1m[92m   Doc-tests[0m waecan_wallet
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

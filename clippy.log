@@ -1,11 +1,11 @@
-[1m[92m    Checking[0m waecan-crypto v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-crypto)
-[1m[92m    Checking[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
-[1m[92m    Checking[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
 [1m[92m    Checking[0m waecan-rpc v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-rpc)
-[1m[92m    Checking[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
 [1m[92m    Checking[0m waecan-wallet v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-wallet)
-[1m[92m    Checking[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
+[1m[92m    Checking[0m waecan-crypto v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-crypto)
+[1m[92m    Checking[0m waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)
 [1m[92m    Checking[0m waecan-p2p v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-p2p)
+[1m[92m    Checking[0m waecan-node v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-node)
+[1m[92m    Checking[0m waecan-cli v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-cli)
+[1m[92m    Checking[0m waecan-mempool v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-mempool)
 [1m[92m    Checking[0m waecan-miner v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-miner)
 [1m[92m    Checking[0m waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)
-[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 1.19s
+[1m[92m    Finished[0m `dev` profile [unoptimized + debuginfo] target(s) in 0.25s
