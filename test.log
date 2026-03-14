@@ -1,5 +1,0 @@
-[1m[92m    Updating[0m crates.io index
-[1m[91merror[0m: cyclic package dependency: package `waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)` depends on itself. Cycle:
-package `waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)`
-    ... which satisfies path dependency `waecan-core` of package `waecan-storage v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-storage)`
-    ... which satisfies path dependency `waecan-storage` of package `waecan-core v0.1.0 (/home/runner/work/Waecan/Waecan/crates/waecan-core)`

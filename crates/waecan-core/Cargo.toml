@@ -5,7 +5,6 @@ edition = "2021"
 
 [dependencies]
 waecan-crypto = { path = "../waecan-crypto" }
-waecan-storage = { path = "../waecan-storage" }
 curve25519-dalek = "4.1"
 thiserror = "1.0"
 randomx-rs = "1.2"
