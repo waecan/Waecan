@@ -119,7 +119,7 @@ fn derive_single_keypair(
     key_bytes.copy_from_slice(&result[..32]);
     clamp_ed25519(&mut key_bytes);
 
-    let private = Scalar::from_bits_clamped(key_bytes);
+    let private = Scalar::from_bytes_mod_order(key_bytes);
     let public = private * ED25519_BASEPOINT_POINT;
 
     Ok((private, public))
