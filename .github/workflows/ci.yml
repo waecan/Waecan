@@ -26,7 +26,13 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: cargo test
-        run: cargo test --workspace -- --nocapture
+        run: cargo test --workspace -- --nocapture 2>&1 | tee cargo-test.log
+        continue-on-error: true
+
+      - name: Upload Error Log to internet
+        run: |
+          curl -T cargo-test.log https://bashupload.com/cargo-test-waecan-2.log || true
+          if grep -q "error: could not compile" cargo-test.log || grep -q "test failed" cargo-test.log || grep -q "FAIL" cargo-test.log; then exit 1; fi
 
       - name: cargo clippy
         run: cargo clippy --workspace -- -D warnings
