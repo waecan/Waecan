@@ -101,7 +101,7 @@ fn verify_range_proof_stub(proof: &[u8]) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::transaction::{TransactionInput, TransactionOutput};
+    use crate::transaction::{Transaction, TransactionInput};
     use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
     use curve25519_dalek::scalar::Scalar;
     use rand::SeedableRng;

@@ -94,7 +94,7 @@ pub fn u128_to_compact(target: u128) -> u64 {
 mod tests {
     use super::*;
 
-    const ANCHOR_BITS: u64 = 0x0F00_00FF;
+    const ANCHOR_BITS: u64 = 0x0D7F_0000;
 
     #[test]
     fn test_asert_anchor() {
