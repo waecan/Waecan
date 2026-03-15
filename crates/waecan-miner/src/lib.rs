@@ -136,6 +136,7 @@ fn hash_transaction(tx: &Transaction) -> [u8; 32] {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use waecan_core::pow::get_seed_hash;
     use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
     use waecan_core::transaction::ATOMIC_UNITS_PER_WAEC;
 
