@@ -40,12 +40,16 @@ fn asert_compute_target(anchor_bits: u64, exponent: i64) -> u64 {
 }
 
 pub fn bits_to_target(bits: u64) -> u64 {
-    let exponent = (bits >> 24) as u32;
+    let exponent = (bits >> 24) as u64;
     let mantissa = bits & 0x00FF_FFFF;
     if exponent <= 3 {
         mantissa >> (8 * (3 - exponent))
     } else {
-        mantissa << (8 * (exponent - 3))
+        let shift = 8 * (exponent - 3);
+        if shift >= 64 {
+            return u64::MAX;
+        }
+        mantissa << shift
     }
 }
 
