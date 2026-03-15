@@ -34,7 +34,12 @@ fn asert_shift(anchor: u128, solvetime_diff: i64) -> u128 {
         if whole_shifts >= 128 {
             u128::MAX
         } else {
-            scaled.saturating_shl(whole_shifts as u32)
+            let shift = whole_shifts as u32;
+            if scaled.leading_zeros() < shift {
+                u128::MAX
+            } else {
+                scaled << shift
+            }
         }
     } else {
         let diff_abs = -diff;
