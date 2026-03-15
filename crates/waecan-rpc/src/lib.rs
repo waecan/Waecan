@@ -163,10 +163,7 @@ fn handle_getbalance(req: &RpcRequest) -> RpcResponse {
 }
 
 fn handle_stop(req: &RpcRequest) -> RpcResponse {
-    RpcResponse::success(
-        req.id.clone(),
-        serde_json::json!("Waecan server stopping"),
-    )
+    RpcResponse::success(req.id.clone(), serde_json::json!("Waecan server stopping"))
 }
 
 #[cfg(test)]
