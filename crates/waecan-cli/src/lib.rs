@@ -54,7 +54,10 @@ pub fn run_command(cmd: Commands) -> String {
                 Err(e) => return format!("Error: invalid hex: {}", e),
             };
             if bytes.len() != 32 {
-                return format!("Error: seed must be 32 bytes (64 hex chars), got {}", bytes.len());
+                return format!(
+                    "Error: seed must be 32 bytes (64 hex chars), got {}",
+                    bytes.len()
+                );
             }
             let mut seed = [0u8; 32];
             seed.copy_from_slice(&bytes);
