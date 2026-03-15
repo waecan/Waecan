@@ -8,3 +8,4 @@ waecan-core = { path = "../waecan-core" }
 waecan-crypto = { path = "../waecan-crypto" }
 randomx-rs = "1.2"
 tiny-keccak = { version = "2.0", features = ["keccak"] }
+curve25519-dalek = { version = "4.1", features = ["digest"] }

@@ -1,6 +1,6 @@
 use tiny_keccak::{Hasher, Keccak};
 use waecan_core::block::{block_reward, Block, BlockHeader, CoinbaseTx};
-use waecan_core::pow::{compute_pow, get_seed_hash, is_pow_valid};
+use waecan_core::pow::{compute_pow, is_pow_valid};
 use waecan_core::transaction::Transaction;
 
 /// Miner configuration.
