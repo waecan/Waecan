@@ -4,7 +4,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use curve25519_dalek::edwards::CompressedEdwardsY;
 use tiny_keccak::{Hasher, Keccak};
 
-use crate::block::{block_reward, Block, BlockHeader};
+use crate::block::{block_reward, Block};
 use crate::error::CoreError;
 use crate::validation::validate_transaction;
 
