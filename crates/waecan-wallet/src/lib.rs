@@ -83,7 +83,7 @@ pub fn scan_block(keys: &WalletKeys, block: &Block) -> Vec<OwnedOutput> {
                 let output_priv =
                     derive_output_private_key(&tx_pub, &keys.view_private, &keys.spend_private);
                 let hp = hash_to_point(&output_key.compress());
-                let key_image = (&output_priv * &hp).compress();
+                let key_image = (output_priv * hp).compress();
 
                 // Decrypt amount from encrypted_amount field
                 let amount = u64::from_le_bytes(output.encrypted_amount);
