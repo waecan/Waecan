@@ -136,21 +136,14 @@ fn hash_transaction(tx: &Transaction) -> [u8; 32] {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use waecan_core::pow::get_seed_hash;
     use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
+    use waecan_core::pow::get_seed_hash;
     use waecan_core::transaction::ATOMIC_UNITS_PER_WAEC;
 
     #[test]
     fn test_build_block_template_height_and_reward() {
         let miner_key = ED25519_BASEPOINT_POINT.compress();
-        let template = build_block_template(
-            [0u8; 32],
-            0,
-            1_700_000_000,
-            1,
-            vec![],
-            miner_key,
-        );
+        let template = build_block_template([0u8; 32], 0, 1_700_000_000, 1, vec![], miner_key);
         assert_eq!(template.header.height, 0);
         assert_eq!(template.coinbase.reward, 50 * ATOMIC_UNITS_PER_WAEC);
     }
