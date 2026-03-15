@@ -1,5 +1,7 @@
 use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
 use curve25519_dalek::scalar::Scalar;
+use rand::SeedableRng;
+use rand_chacha::ChaCha20Rng;
 
 use waecan_core::block::Block;
 use waecan_core::transaction::{Transaction, TransactionInput, TransactionOutput, MIN_FEE_ATOMIC};
@@ -182,7 +184,7 @@ pub fn build_transaction(
         members.insert(real_index, real_member);
 
         let ring = Ring { members };
-        let ring_sig = mlsag_sign(&ring, real_index, &keys.spend_private, &msg, &mut rand::thread_rng())
+        let ring_sig = mlsag_sign(&ring, real_index, &keys.spend_private, &msg, &mut ChaCha20Rng::from_entropy())
             .map_err(|e| WalletError::CryptoError(format!("{}", e)))?;
 
         let b_in = Scalar::from(1u64);
