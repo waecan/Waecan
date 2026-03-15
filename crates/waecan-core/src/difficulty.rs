@@ -115,9 +115,12 @@ mod tests {
         );
         let result_target = compact_to_u128(result);
         let anchor_target = compact_to_u128(ANCHOR_BITS);
-        assert!(result_target < anchor_target,
+        assert!(
+            result_target < anchor_target,
             "2x fast: target should decrease. got {} anchor {}",
-            result_target, anchor_target);
+            result_target,
+            anchor_target
+        );
     }
 
     #[test]
@@ -131,8 +134,11 @@ mod tests {
         );
         let result_target = compact_to_u128(result);
         let anchor_target = compact_to_u128(ANCHOR_BITS);
-        assert!(result_target > anchor_target,
+        assert!(
+            result_target > anchor_target,
             "2x slow: target should increase. got {} anchor {}",
-            result_target, anchor_target);
+            result_target,
+            anchor_target
+        );
     }
 }

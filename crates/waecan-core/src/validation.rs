@@ -101,9 +101,8 @@ fn verify_range_proof_stub(proof: &[u8]) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::transaction::{Transaction, TransactionInput};
+    use crate::transaction::{Transaction, TransactionInput, TransactionOutput};
     use curve25519_dalek::constants::ED25519_BASEPOINT_POINT;
-    use crate::transaction::TransactionOutput;
     use rand::SeedableRng;
     use rand_chacha::ChaCha20Rng;
     use waecan_crypto::pedersen::PedersenCommitment;
