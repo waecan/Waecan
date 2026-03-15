@@ -1,6 +1,7 @@
 use crate::block::BlockHeader;
 use randomx_rs::{RandomXCache, RandomXFlag, RandomXVM};
 
+#[allow(clippy::needless_range_loop)]
 pub fn compact_to_target(difficulty: u64) -> [u8; 32] {
     if difficulty <= 1 {
         return [0xFF; 32];
