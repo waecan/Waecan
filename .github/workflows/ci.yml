@@ -29,18 +29,10 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: cargo test
-        run: cargo test --workspace -- --nocapture > test.log 2>&1 || true
+        run: cargo test --workspace -- --nocapture
 
       - name: cargo clippy
-        run: cargo clippy --workspace -- -D warnings > clippy.log 2>&1 || true
+        run: cargo clippy --workspace -- -D warnings
 
       - name: cargo fmt check
-        run: cargo fmt --all -- --check > fmt.log 2>&1 || true
-
-      - name: Commit and push logs
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f *.log
-          git commit -m "chore: upload CI logs [skip ci]" || true
-          git push
+        run: cargo fmt --all -- --check
