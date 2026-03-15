@@ -27,4 +27,24 @@ pub enum CoreError {
     ExtraTooLarge,
     #[error("Transaction public key is invalid")]
     InvalidTxPublicKey,
+    #[error("Block header version must be 1")]
+    InvalidBlockVersion,
+    #[error("Block prev_hash does not match chain tip")]
+    InvalidPrevHash,
+    #[error("Block timestamp not greater than median of last 11 blocks")]
+    TimestampTooOld,
+    #[error("Block timestamp too far in the future")]
+    TimestampTooNew,
+    #[error("Block difficulty does not match expected ASERT target")]
+    InvalidDifficulty,
+    #[error("Block PoW hash exceeds target")]
+    InvalidPoW,
+    #[error("Block merkle root mismatch")]
+    InvalidMerkleRoot,
+    #[error("Coinbase reward does not match expected block reward")]
+    InvalidCoinbaseReward,
+    #[error("Block contains invalid transaction")]
+    InvalidBlockTransaction(String),
+    #[error("Duplicate key image within block")]
+    DuplicateKeyImageInBlock,
 }
