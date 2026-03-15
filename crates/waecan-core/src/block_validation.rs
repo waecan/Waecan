@@ -141,8 +141,12 @@ pub fn validate_block(block: &Block, ctx: &BlockValidationContext) -> Result<(),
         return Err(CoreError::InvalidMerkleRoot);
     }
 
-    // Rule 8: coinbase.reward == block_reward(header.height)
-    let expected_reward = block_reward(block.header.height);
+    // Rule 8: coinbase.reward == block_reward(header.height) + 30% of all tx fees
+    let mut total_fee = 0u64;
+    for tx in &block.transactions {
+        total_fee += tx.fee;
+    }
+    let expected_reward = block_reward(block.header.height) + (total_fee * crate::validation::FEE_MINER_RATIO / 100);
     if block.coinbase.reward != expected_reward {
         return Err(CoreError::InvalidCoinbaseReward);
     }
@@ -263,14 +267,18 @@ mod tests {
             .unwrap()
             .as_secs();
 
+        let mut total_fee = 0u64;
+        let txs: Vec<Transaction> = vec![];
+        for tx in &txs {
+            total_fee += tx.fee;
+        }
+
         let coinbase = CoinbaseTx {
             height,
-            reward: block_reward(height),
+            reward: block_reward(height) + (total_fee * crate::validation::FEE_MINER_RATIO / 100),
             miner_output_key: ED25519_BASEPOINT_POINT.compress(),
             genesis_message: vec![],
         };
-
-        let txs: Vec<Transaction> = vec![];
 
         let mut tx_hashes = vec![hash_coinbase(&coinbase)];
         for tx in &txs {

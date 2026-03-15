@@ -6,6 +6,9 @@ use waecan_crypto::pedersen::verify_balance;
 use crate::error::CoreError;
 use crate::transaction::{Transaction, MIN_FEE_ATOMIC};
 
+pub const FEE_BURN_RATIO: u64 = 70;   // 70% burned
+pub const FEE_MINER_RATIO: u64 = 30;  // 30% to block producer
+
 /// Validate a transaction against all 11 consensus rules from Section 3.4.
 pub fn validate_transaction(
     tx: &Transaction,
@@ -305,15 +308,14 @@ mod tests {
 
     #[test]
     fn test_fee_burn_invariant() {
-        // Assert fee never appears in outputs. The outputs contain commitments to value 99.
-        // The fee is 1. It is destroyed.
+        // Assert fee never appears directly in outputs. The outputs contain commitments to value 99.
+        // The fee is 1. It is split 70/30 burn/miner at block level.
         let tx = make_valid_tx();
         let out_commit = &tx.outputs[0].commitment;
         let fee_commit = PedersenCommitment::commit_fee(tx.fee);
         assert_ne!(out_commit.commitment, fee_commit.commitment);
 
-        // Fee burn is implicit in `verify_balance(&inputs, &outputs, fee)`.
-        // It consumes the numeric fee in the equation, balancing it against inputs,
-        // but does NOT attach the fee amount to any output Pedersen Commitment.
+        // At tx level, verify_balance consumes the numeric fee in the equation.
+        // The block validator (rule 8) allows the miner to claim the 30% portion.
     }
 }

@@ -151,8 +151,11 @@ fn test_5_fee_burn_invariant() {
         total_rewards += reward;
         total_fees_burned += fee;
 
-        // Miner gets reward; fee is burned (not given to miner)
-        let out_value = reward - fee;
+        // Miner gets reward + 30% of fee; 70% of fee is burned
+        let miner_fee = fee * 30 / 100;
+        let burned_fee = fee - miner_fee;
+        
+        let out_value = reward + miner_fee;
         let out_blind = Scalar::from(h_loop);
         total_blindings += out_blind;
 
@@ -179,8 +182,13 @@ fn test_5_fee_burn_invariant() {
     }
 
     // Homomorphic invariant:
-    // sum(UTXO commitments) == commit(sum(rewards) - sum(fees), sum(blindings))
-    let expected_net_supply = total_rewards - total_fees_burned;
+    // sum(UTXO commitments) == commit(sum(rewards), sum(blindings))
+    // Wait, let's look at the tx level: 
+    // The TX consumes `fee`, deleting it from UTXO set.
+    // The BLOCK COINBASE creates `miner_fee` (30% of `fee`).
+    // Therefore, the global UTXO set permanently loses 70% of the fee (`burned_fee`).
+    let total_burned = total_fees_burned * 70 / 100;
+    let expected_net_supply = total_rewards - total_burned;
     let expected_commit = PedersenCommitment::commit(expected_net_supply, &total_blindings);
 
     assert_eq!(
