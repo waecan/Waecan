@@ -4,7 +4,8 @@ use libp2p::gossipsub::{self, IdentTopic, MessageAuthenticity};
 use libp2p::identity::Keypair;
 use libp2p::kad::store::MemoryStore;
 use libp2p::kad::{self};
-use libp2p::swarm::{NetworkBehaviour, Swarm};
+use libp2p::swarm::Swarm;
+use libp2p::NetworkBehaviour;
 use libp2p::{identify, noise, tcp, yamux, SwarmBuilder};
 
 /// GossipSub topic for new block announcements.
