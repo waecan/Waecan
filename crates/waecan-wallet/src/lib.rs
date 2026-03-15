@@ -171,9 +171,7 @@ pub fn build_transaction(
         let decoys = if i < ring_members.len() {
             &ring_members[i]
         } else {
-            return Err(WalletError::CryptoError(
-                "Not enough ring members".into(),
-            ));
+            return Err(WalletError::CryptoError("Not enough ring members".into()));
         };
 
         let mut members = decoys.clone();
@@ -184,8 +182,14 @@ pub fn build_transaction(
         members.insert(real_index, real_member);
 
         let ring = Ring { members };
-        let ring_sig = mlsag_sign(&ring, real_index, &keys.spend_private, &msg, &mut ChaCha20Rng::from_entropy())
-            .map_err(|e| WalletError::CryptoError(format!("{}", e)))?;
+        let ring_sig = mlsag_sign(
+            &ring,
+            real_index,
+            &keys.spend_private,
+            &msg,
+            &mut ChaCha20Rng::from_entropy(),
+        )
+        .map_err(|e| WalletError::CryptoError(format!("{}", e)))?;
 
         let b_in = Scalar::from(1u64);
         let pseudo_commit = PedersenCommitment::commit(owned.amount, &b_in);
