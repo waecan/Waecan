@@ -8,8 +8,8 @@ pub const GENESIS_BITS: u64 = 0x2007_FFFF; // low difficulty for launch
 pub const GENESIS_NONCE: u64 = 0; // will be found by miner
 
 /// The genesis message embedded in the coinbase extra field.
-/// SHA-256 of the Wæcnan whitepaper — placeholder until whitepaper is final.
-pub const GENESIS_MESSAGE: &[u8] = b"Waecnan: Privacy is not a privilege. 2025-03-15";
+/// SHA-256 of the Wæcnan whitepaper.
+pub const GENESIS_MESSAGE: &[u8] = b"Waecnan: Privacy is not a privilege. 2026-03-15 | wp:8c60a6683a696b520db35277cc28d0aa5522c1114c6caf0656633364208e36d8";
 
 /// Build the Waecan genesis block.
 pub fn build_genesis_block(_miner_address: &str) -> Block {
@@ -67,8 +67,8 @@ mod tests {
     }
 
     #[test]
-    fn test_genesis_message_contains_waecnan() {
+    fn test_genesis_message_contains_hash() {
         let msg = String::from_utf8_lossy(GENESIS_MESSAGE);
-        assert!(msg.contains("Waecnan"));
+        assert!(msg.contains("8c60a66"));
     }
 }
