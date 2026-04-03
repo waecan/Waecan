@@ -1,27 +1,26 @@
 use crate::block::BlockHeader;
 use randomx_rs::{RandomXCache, RandomXFlag, RandomXVM};
 
-/// Decode a compact (nBits) difficulty value into a 256-bit target.
-/// Format: highest byte = exponent (number of bytes), lower 3 bytes = mantissa.
+/// Convert compact (nBits) difficulty to a 32-byte big-endian target.
+/// Format: top byte = exponent (number of significant bytes), lower 3 bytes = mantissa.
 /// target = mantissa * 2^(8 * (exponent - 3))
-/// Stored as little-endian [u8; 32].
-pub fn compact_to_target(bits: u64) -> [u8; 32] {
-    let exponent = ((bits >> 24) & 0xFF) as usize;
+pub fn compact_to_target_bytes(bits: u64) -> [u8; 32] {
+    let exponent = (bits >> 24) as usize;
     let mantissa = (bits & 0x007F_FFFF) as u64;
-
     let mut target = [0u8; 32];
-    if exponent == 0 {
+    if exponent == 0 || exponent > 32 {
         return target;
     }
-
-    // Place mantissa bytes (big-endian, 3 bytes) at the correct position.
-    // In LE layout, the MSB of the mantissa goes to byte index (exponent - 1).
-    let mantissa_bytes = mantissa.to_be_bytes(); // 8 bytes, we want last 3
-    for j in 0..3 {
-        let byte_pos = exponent.saturating_sub(1 + j);
-        if byte_pos < 32 {
-            target[byte_pos] = mantissa_bytes[5 + j];
-        }
+    // Write mantissa as 3 bytes at position (32 - exponent)
+    let pos = 32usize.saturating_sub(exponent);
+    if pos + 2 < 32 {
+        target[pos] = ((mantissa >> 16) & 0xff) as u8;
+    }
+    if pos + 1 < 32 {
+        target[pos + 1] = ((mantissa >> 8) & 0xff) as u8;
+    }
+    if pos + 2 <= 32 {
+        target[pos + 2] = (mantissa & 0xff) as u8;
     }
     target
 }
@@ -36,10 +35,10 @@ pub fn compute_pow(header: &BlockHeader, seed_hash: &[u8; 32]) -> [u8; 32] {
 }
 
 pub fn is_pow_valid(header: &BlockHeader, pow_hash: &[u8; 32]) -> bool {
-    let target = crate::difficulty::compact_to_u128(header.difficulty);
-    // Interpret hash as little-endian u128 (use only first 16 bytes)
-    let hash_val = u128::from_le_bytes(pow_hash[..16].try_into().unwrap());
-    hash_val < target
+    // Convert compact bits to 32-byte target (big-endian 256-bit)
+    let target = compact_to_target_bytes(header.difficulty);
+    // Compare hash <= target byte by byte (big-endian)
+    pow_hash <= &target
 }
 
 pub fn get_seed_hash(height: u64, genesis_hash: [u8; 32]) -> [u8; 32] {
@@ -63,13 +62,13 @@ mod tests {
             nonce: 0,
             height: 0,
         };
-        let hash = [0xFF; 32];
+        let hash = [0x01; 32]; // any small hash should pass
         assert!(is_pow_valid(&header, &hash));
     }
 
     #[test]
     fn test_is_pow_valid_fails_hard_target() {
-        // 0x0100_0001: exponent=1, mantissa=1 → target is 1 (nearly impossible)
+        // 0x0100_0001: exponent=1, mantissa=1 → target byte[31]=0x01, rest 0x00
         let header = BlockHeader {
             version: 1,
             prev_hash: [0; 32],
@@ -84,11 +83,16 @@ mod tests {
     }
 
     #[test]
-    fn test_compact_to_target_max_difficulty() {
-        // 0x2007FFFF should produce a target with 0x07FFFF at bytes 29,30,31
-        let target = compact_to_target(0x2007_FFFF);
-        assert_eq!(target[31], 0x07);
-        assert_eq!(target[30], 0xFF);
-        assert_eq!(target[29], 0xFF);
+    fn test_compact_to_target_bytes_easy() {
+        // 0x2007FFFF: exponent=32, mantissa=0x07FFFF
+        // pos = 32 - 32 = 0, so target[0]=0x07, target[1]=0xFF, target[2]=0xFF
+        let target = compact_to_target_bytes(0x2007_FFFF);
+        assert_eq!(target[0], 0x07);
+        assert_eq!(target[1], 0xFF);
+        assert_eq!(target[2], 0xFF);
+        // rest should be zero
+        for i in 3..32 {
+            assert_eq!(target[i], 0, "byte {} should be 0", i);
+        }
     }
 }
