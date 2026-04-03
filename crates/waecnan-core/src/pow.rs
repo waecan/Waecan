@@ -36,15 +36,10 @@ pub fn compute_pow(header: &BlockHeader, seed_hash: &[u8; 32]) -> [u8; 32] {
 }
 
 pub fn is_pow_valid(header: &BlockHeader, pow_hash: &[u8; 32]) -> bool {
-    let target = compact_to_target(header.difficulty);
-    for i in (0..32).rev() {
-        if pow_hash[i] < target[i] {
-            return true;
-        } else if pow_hash[i] > target[i] {
-            return false;
-        }
-    }
-    true
+    let target = crate::difficulty::compact_to_u128(header.difficulty);
+    // Interpret hash as little-endian u128 (use only first 16 bytes)
+    let hash_val = u128::from_le_bytes(pow_hash[..16].try_into().unwrap());
+    hash_val < target
 }
 
 pub fn get_seed_hash(height: u64, genesis_hash: [u8; 32]) -> [u8; 32] {
