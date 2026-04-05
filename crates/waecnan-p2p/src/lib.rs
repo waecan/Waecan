@@ -14,7 +14,7 @@ pub const TOPIC_BLOCKS: &str = "waecan/blocks/1";
 pub const TOPIC_TXS: &str = "waecan/transactions/1";
 
 /// Seed nodes for initial peer discovery.
-pub const SEED_NODES: &[&str] = &["/ip4/127.0.0.1/tcp/19334"];
+pub const SEED_NODES: &[&str] = &["/ip4/157.173.106.62/tcp/19334"];
 
 /// Combined libp2p behaviour for the Waecan node.
 #[derive(NetworkBehaviour)]

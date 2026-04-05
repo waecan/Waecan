@@ -84,6 +84,16 @@ fn hash_coinbase(cb: &crate::block::CoinbaseTx) -> [u8; 32] {
 /// Validate a block against the 10 consensus rules from Section 4.
 pub fn validate_block(block: &Block, ctx: &BlockValidationContext) -> Result<(), CoreError> {
     // Rule 1: header.version == 1
+    // VULN-10: block size limit 2MB
+    const MAX_BLOCK_BYTES: usize = 2_000_000;
+    let block_size: usize = block
+        .transactions
+        .iter()
+        .map(|tx| tx.extra.len() + tx.inputs.len() * 500 + tx.outputs.len() * 300)
+        .sum();
+    if block_size > MAX_BLOCK_BYTES {
+        return Err(CoreError::InvalidBlockVersion);
+    }
     if block.header.version != 1 {
         return Err(CoreError::InvalidBlockVersion);
     }

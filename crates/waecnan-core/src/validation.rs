@@ -39,6 +39,13 @@ pub fn validate_transaction(
         if input.ring.members.len() != 11 {
             return Err(CoreError::InvalidRingSize);
         }
+        // VULN-03: reject duplicate ring members
+        let mut seen_members = std::collections::HashSet::new();
+        for member in &input.ring.members {
+            if !seen_members.insert(member.output_key.as_bytes()) {
+                return Err(CoreError::InvalidRingSize);
+            }
+        }
 
         // 5. For each input: key_image is not in the global key image set
         if known_key_images.contains(&input.key_image) {
