@@ -1,5 +1,6 @@
 use curve25519_dalek::edwards::{CompressedEdwardsY, EdwardsPoint};
 use curve25519_dalek::scalar::Scalar;
+use rand::Rng;
 use rand::SeedableRng;
 use rand_chacha::ChaCha20Rng;
 
