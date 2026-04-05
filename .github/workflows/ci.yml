@@ -7,7 +7,7 @@ on:
     branches: ["main"]
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   CARGO_TERM_COLOR: always
@@ -19,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -35,13 +33,6 @@ jobs:
 
       - name: cargo clippy
         run: cargo clippy --workspace -- -D warnings
-
-      - name: cargo fmt
-        run: |
-          cargo fmt --all
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git diff --quiet || (git commit -am "ci: auto-format" && git push)
 
       - name: cargo fmt check
         run: cargo fmt --all -- --check
