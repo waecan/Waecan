@@ -125,7 +125,8 @@ pub fn build_transaction(
         WaecanAddress::from_bech32m(recipient).map_err(|_| WalletError::InvalidAddress)?;
 
     // Generate a random tx secret for the stealth address
-    let tx_secret = Scalar::from_bytes_mod_order([42u8; 32]); // stub: deterministic for now
+    let mut rng = ChaCha20Rng::from_entropy();
+    let tx_secret = Scalar::from_bytes_mod_order(rng.gen()); // stub: deterministic for now
 
     // Create the output to recipient
     let (output_key, tx_public_key) = compute_output_key(
