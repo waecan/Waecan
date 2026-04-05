@@ -229,7 +229,9 @@ mod tests {
         let (output_key, _) = compute_output_key(&tx_secret, &view.public, &spend.public, 0);
 
         let shared = tx_secret * view.public;
-        let hs = crate::hash::keccak256_to_scalar(shared.compress().as_bytes());
+        let mut data = shared.compress().as_bytes().to_vec();
+        data.extend_from_slice(&(0u64).to_le_bytes());
+        let hs = crate::hash::keccak256_to_scalar(&data);
         let output_private = hs + spend.private;
 
         let real_index = 3;
