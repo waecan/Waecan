@@ -42,7 +42,7 @@ pub fn validate_transaction(
         // VULN-03: reject duplicate ring members
         let mut seen_members = std::collections::HashSet::new();
         for member in &input.ring.members {
-            if !seen_members.insert(member.output_key.as_bytes()) {
+            if !seen_members.insert(member.output_key.compress().to_bytes()) {
                 return Err(CoreError::InvalidRingSize);
             }
         }
