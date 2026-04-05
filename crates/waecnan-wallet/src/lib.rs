@@ -79,10 +79,20 @@ pub fn scan_block(keys: &WalletKeys, block: &Block) -> Vec<OwnedOutput> {
                 None => continue,
             };
 
-            if scan_output(&tx_pub, &keys.view_private, &keys.spend_public, &output_key) {
+            if scan_output(
+                &tx_pub,
+                &keys.view_private,
+                &keys.spend_public,
+                &output_key,
+                output_idx,
+            ) {
                 // Derive the one-time private key to compute the key image
-                let output_priv =
-                    derive_output_private_key(&tx_pub, &keys.view_private, &keys.spend_private);
+                let output_priv = derive_output_private_key(
+                    &tx_pub,
+                    &keys.view_private,
+                    &keys.spend_private,
+                    output_idx,
+                );
                 let hp = hash_to_point(&output_key.compress());
                 let key_image = (output_priv * hp).compress();
 
@@ -134,6 +144,7 @@ pub fn build_transaction(
         &tx_secret,
         &recipient_addr.view_public,
         &recipient_addr.spend_public,
+        0,
     );
 
     let b_out = Scalar::from(1u64);
@@ -153,7 +164,7 @@ pub fn build_transaction(
     if change > 0 {
         let change_secret = Scalar::from_bytes_mod_order([43u8; 32]); // stub
         let (change_key, _) =
-            compute_output_key(&change_secret, &keys.view_public, &keys.spend_public);
+            compute_output_key(&change_secret, &keys.view_public, &keys.spend_public, 1);
         let b_change = Scalar::from(1u64);
         let change_commit = PedersenCommitment::commit(change, &b_change);
 
@@ -241,7 +252,7 @@ mod tests {
         // Create a tx with an output sent to this wallet
         let tx_secret = Scalar::from_bytes_mod_order([99u8; 32]);
         let (output_key, tx_pub) =
-            compute_output_key(&tx_secret, &keys.view_public, &keys.spend_public);
+            compute_output_key(&tx_secret, &keys.view_public, &keys.spend_public, 0);
 
         let tx = Transaction {
             version: 1,
@@ -289,7 +300,7 @@ mod tests {
         // Output sent to other wallet
         let tx_secret = Scalar::from_bytes_mod_order([10u8; 32]);
         let (output_key, tx_pub) =
-            compute_output_key(&tx_secret, &other.view_public, &other.spend_public);
+            compute_output_key(&tx_secret, &other.view_public, &other.spend_public, 0);
 
         let tx = Transaction {
             version: 1,
